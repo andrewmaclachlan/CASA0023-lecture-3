@@ -32,7 +32,7 @@
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x05abb546b07415993380ebbfadd17b2","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x6a806bbb2854fef868cf0f2915d0c5c","expires":1}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
     <script src="libs/editable/editable.js"></script>
@@ -69,7 +69,7 @@ class: inverse, center, title-slide, middle
 
 ### Lecture 3: Landsat, corrections and merging imagery
 
-### 02/02/2022 (updated: 03/03/2022)
+### 02/02/2022 (updated: 04/03/2022)
 
 <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-right:0.2em;font-size:inherit;fill:white;overflow:visible;position:relative;"><path d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"/></svg>[a.maclachlan@ucl.ac.uk](mailto:a.maclachlan@ucl.ac.uk)
 <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-right:0.2em;font-size:inherit;fill:white;overflow:visible;position:relative;"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>[andymaclachlan](https://twitter.com/andymaclachlan)
@@ -109,6 +109,39 @@ class: inverse, center, middle
 
 - Pressing alt+F will fit the slide to the screen, this is useful if you have resized the window and have another open - side by side. 
 
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 110px;
+height: 128px;
+z-index: 0;
+background-image: url(img/casa_logo.jpg);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+top:1em;right:1em;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('div')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = null
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
 ---
 
 
@@ -167,6 +200,8 @@ But when remotely sensed data is collected image distortions can be introduced d
 &lt;img src="img/look_angles2.gif" width=300&gt;
 &lt;/center&gt;
 
+.small[Geometric distortion from sensor view angles. Source:[Remote Sensing in Schools](https://fis.uni-bonn.de/en/recherchetools/infobox/professionals/preprocessing/geometric-correction)
+]
 ---
 
 # Geometric correction solution
@@ -274,7 +309,7 @@ Jensen goes on to discuss necessary and unnecessary atmospheric correction:
 
 ---
 
-# Atmospheric correction types
+# Atmospheric correction types 2
 
 .pull-left[ 
 &lt;img src="img/DOS.png" width="100%" style="display: block; margin: auto;" /&gt;
@@ -284,7 +319,7 @@ Jensen goes on to discuss necessary and unnecessary atmospheric correction:
 ]
 
 .pull-right[
-&lt;img src="img/PIFS.png" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="img/PIFs.png" width="50%" style="display: block; margin: auto;" /&gt;
 .small[PIFs between datasets from different dates - lnland Wetland Change Detection in the Everglades Water Conservation Area 2A Using a Time Series of Normalized Remotely Sensed Data. Source:[Jensen et al. 1995, 2012](https://www.asprs.org/wp-content/uploads/pers/1995journal/feb/1995_feb_199-209.pdf)
 
 ]
@@ -292,68 +327,140 @@ Jensen goes on to discuss necessary and unnecessary atmospheric correction:
 
 
 ---
-# Atmospheric correction tyes 2
+# Atmospheric correction types 3
+
+### Absolute 
+
+* Change digital brightness values into scaled surface reflectance. We can **then compare these scaled surface reflectance values across the planet**
+
+* We do this through **atmospheric radiative transfer models** and there are many to select from 
+
+* **However, nearly all assume atmospheric measurements are available** which are used to "invert" the image radiance to scaled surface reflectance
+
+* The scattering and absorption information comes from atmopshierc radiative transfer code such as MODTRAN 4+ and the Second Simulation of the Satellite Signal in the Solar Spectrum (6S), which can now be used through python - [called Py6S](https://py6s.readthedocs.io/en/latest/audience.html)
+
+---
+
+# Atmospheric correction types 4
 
 .pull-left[ 
-### Relative 
+### Absolute Data requirements
 
-* 
-
+* An atmopsheric model (summer, tropical) - usually you can select from the tool
+* Local atmopsheric visibility - from a weather station, like airports
+* Image altitude 
 ]
 
 .pull-right[
-### Absolute 
+### Absolute Tools $$$
+
+* ACORN - Atmopsehic CORection Now
+* FLAASH - Fast Line of-sight Atmopsheric Analysis 
+* QUAC - Quick Atmopsheric Correction 
+* ATCOR - The ATmospheric CORrection program 
+
+
+Free
+* SMAC - [Simplified Model for Atmospheric Correction (SMAC)](https://github.com/olivierhagolle/SMAC)
+* [Orfeo Toolbox](https://www.orfeo-toolbox.org/CookBook/Applications/app_OpticalCalibration.html)
 ]
 
 
 ---
+# Atmospheric correction types 5
 
+### Empirical Line Correction 
+
+* We can go and take measurements in situ using a field spectrometer 
+
+* This does require measurements at the same time as the satellite overpass....
+
+.pull-left[
+&lt;img src="img/calibration_panel2.jpg" width="95%" style="display: block; margin: auto;" /&gt;
+.small[Source: Andy MacLachlan]
+]
+
+.pull-right[
+&lt;img src="img/calibration_panel.jpg" width="65%" style="display: block; margin: auto;" /&gt;
+.small[Source: Andy MacLachlan]
+]
+
+---
+
+# Atmospheric correction types 6
+
+### Empirical Line Correction 
+
+Then use these measurements in [linear regression against the satellite data raw digital number](https://www.l3harrisgeospatial.com/docs/atmosphericcorrection.html#empirical_line_calibration)
+
+.center[
+
+`\(BV_k= p_\lambda A_k +B_k\)`
+
+`\(BV_k\)` is the Digital number for band K
+
+`\(p_\lambda\)` is the surface reflenctance from the filed survey
+
+`\(B_k\)` is the additive term...or...
+
+`\(Reflectance (field spectrum) = gain * radiance (input data) + offset\)`]
+
+---
+
+# Remote sensing jargon 
+
+We saw in CASA0005 and we will see in this module the terms gain and offset...
+
+Before a sensor is launched it is calibrated in a lab - we then use these measurements to adjust the data from the sensor...
+
+
+&lt;img src="img/gain_bias.png" width="65%" style="display: block; margin: auto;" /&gt;
+.small[Calibration of 8-bit satellite data. Gain represents the gradient of the calibration. Bias defines the spectral radiance of the sensor for a DN of zero. Source:[Lesson 3: Radiometric correction of satellite images](https://www.ncl.ac.uk/tcmweb/bilko/module7/lesson3.pdf)
+]
+---
+
+class: inverse, center, middle
+
+# Review of atmospheric correction
+
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/qb4yFwzsnU8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+
+---
 class: inverse, center, middle
 
 
 # Orthorectification correction  
 
 
+
 ---
+
+# Orthorectification correction  
+
+Requires:
+
+* Sensor geometry 
+* An elevation model 
+
+&lt;img src="img/orthorectification.jpg" width="55%" style="display: block; margin: auto;" /&gt;
+.small[A view captured from an oblique angle (for example, 25°, left) must be corrected for relief displacement caused by terrain to generate the orthorectified view (looking straight down, right). Orthoimagery is produced by calculating the nadir view for every pixel. Source:[Esri Insider, 2016](https://www.esri.com/about/newsroom/insider/what-is-orthorectified-imagery/)
+]
+
+---
+
+https://grass.osgeo.org/grass78/manuals/i.ortho.photo.html
+
+---
+
+
+
 class: inverse, center, middle
 
 # Radiometric Calibration
 
 ---
 
-<div>
-<style type="text/css">.xaringan-extra-logo {
-width: 110px;
-height: 128px;
-z-index: 0;
-background-image: url(img/casa_logo.jpg);
-background-size: contain;
-background-repeat: no-repeat;
-position: absolute;
-top:1em;right:1em;
-}
-</style>
-<script>(function () {
-  let tries = 0
-  function addLogo () {
-    if (typeof slideshow === 'undefined') {
-      tries += 1
-      if (tries < 10) {
-        setTimeout(addLogo, 100)
-      }
-    } else {
-      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
-        .forEach(function (slide) {
-          const logo = document.createElement('div')
-          logo.classList = 'xaringan-extra-logo'
-          logo.href = null
-          slide.appendChild(logo)
-        })
-    }
-  }
-  document.addEventListener('DOMContentLoaded', addLogo)
-})()</script>
-</div>
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
