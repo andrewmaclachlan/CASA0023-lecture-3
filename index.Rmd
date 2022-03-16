@@ -63,7 +63,7 @@ library(fontawesome)
 
 # Remotely Sensing Cities and Environments
 
-### Lecture 3: Landsat, corrections and merging imagery
+### Lecture 3: Corrections, Landsat and merging imagery
 
 ### 02/02/2022 (updated: `r format(Sys.time(), "%d/%m/%Y")`)
 
@@ -73,17 +73,6 @@ library(fontawesome)
 `r fa("map-marker", fill = "white")`[Centre for Advanced Spatial Analysis, UCL](https://www.ucl.ac.uk/bartlett/casa/)
 
 <a href="https://github.com/andrewmaclachlan" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; left: 0; transform: scale(-1, 1);" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
-
-
----
-class: inverse, center, middle
-# This lecture and practical are solely about getting started with the two data science tools we will use `r emo::ji("book")`
-
-# 1. Xaringan for group presentations*
-
-# 2. Bookdown for individual portofios 
-
-###* there will also be a short group contributions form to complete 
 
 ---
 
@@ -116,12 +105,14 @@ xaringanExtra::use_logo(
 # Outline
 
 
+
+
 ---
 class: inverse, center, middle
 
 # Pre-processing requirements
 
-Occasionally remotely sensed images can contain flaws within them
+## Occasionally remotely sensed images can contain flaws within them
 
 
 ---
@@ -165,15 +156,6 @@ knitr::include_graphics('img/earth_rotation.jpg')
 ]
 ]
 
----
-# Look angles
-
-<center>
-<img src="img/look_angles2.gif" width=300>
-</center>
-
-.small[Geometric distortion from sensor view angles. Source:[Remote Sensing in Schools](https://fis.uni-bonn.de/en/recherchetools/infobox/professionals/preprocessing/geometric-correction)
-]
 ---
 
 # Geometric correction solution
@@ -254,8 +236,23 @@ Jensen goes on to discuss necessary and unnecessary atmospheric correction:
 
 ]
 
-
 ---
+# Atmospheric correction in action
+
+```{r echo=FALSE, out.width='60%', fig.align='center'}
+knitr::include_graphics('img/haze_atmospheric_correction.png')
+```
+.small[Atmospheric correction examples of three scenes (Bands 1, 2, and 3). Source:[Liang et al. 2001](https://www.researchgate.net/figure/Atmospheric-correction-examples-of-three-scenes-Bands-1-2-and-3-The-first-row-shows_fig6_3202775)
+]
+
+Absorption and scattering create the haze = reduces contrast of image.
+
+Scattering = can create the “adjacency effect”, radiance from pixels nearby mixed into pixel of interest. 
+
+.small[Source:[Newcastle Univesrity](https://www.ncl.ac.uk/tcmweb/bilko/module7/lesson3.pdf)
+]
+---
+
 # Atmospheric correction types
 
 ### Relative 
@@ -389,6 +386,148 @@ $Reflectance (field spectrum) = gain * radiance (input data) + offset$]
 
 ---
 
+class: inverse, center, middle
+
+# Review of atmospheric correction
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qb4yFwzsnU8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+---
+class: inverse, center, middle
+
+
+# Orthorectification correction / topographic correction
+
+---
+
+# Orthorectification correction  
+
+## A subset of georectification 
+
+georectification = giving coordiantes to an image 
+
+orthorectification = removing distortions... making the pixels viewed at nadir
+
+Requires:
+
+* Sensor geometry 
+* An elevation model 
+
+```{r echo=FALSE, out.width='28%', fig.align='center'}
+knitr::include_graphics("img/orthorectification.jpg")
+```
+.small[A view captured from an oblique angle (for example, 25°, left) must be corrected for relief displacement caused by terrain to generate the orthorectified view (looking straight down, right). Orthoimagery is produced by calculating the nadir view for every pixel. Source:[Esri Insider, 2016](https://www.esri.com/about/newsroom/insider/what-is-orthorectified-imagery/)
+]
+
+---
+# Orthorectification correction 2
+
+
+```{r echo=FALSE, out.width='80%', fig.align='center'}
+knitr::include_graphics("img/keating_left_and_ortho.jpg")
+```
+.small[Orthorectification creates a final product whereby each pixel in the image is depicted as if it were collected from directly overhead or as close to this as possible. In the graphic above, you can see a path through the forest going from the northwest to the southeast. On the left is the original image, and on the right is the orthorectified image. In the orthorectified version, you can see that the path is now nearly straight after the influence of topography has been removed from the image. (Graphic Credit: David DiBiase, Penn State University). Source:[Apollo Mapping, 2016](https://apollomapping.com/blog/g-faq-orthorectification-part)
+]
+
+---
+# Orthorectification correction 3
+
+### Software / formulas to do this...
+
+Jensen covers the following formulas:
+
+* Cosine correction
+
+  * $L_H= L_T\frac{cos\theta_O}{\cos_i}$
+  
+  Where
+  * $L_T$ = radiance from sloped terrain
+  * $\theta_O$ = Sun's zenith angle
+  * $i$ = Sun's incidence angle - cosine of the angle between the solar zenith
+and the normal line of the slope
+  * Latter two found in angle coefficient files (e.g. Landsat data ANG.txt)
+
+* Minnaert correction
+* Statistical Empirical correction 
+* C Correction (advancing the Cosine)
+
+---
+# Orthorectification correction 4
+
+### Software / formulas to do this...
+
+```{r echo=FALSE, out.width='30%', fig.align='center'}
+knitr::include_graphics("img/vza-sza.png")
+```
+.small[Schematic illustration of the Solar Zenith Angle (SZA) and Viewing Zenith Angle (VZA) for observations from satellite-based instrument. [image taken from a NASA page](https://sacs.aeronomie.be/info/sza.php)
+]
+
+To get $cos_i$
+
+$cos_i= cos\theta_p cos\theta_z + sin\theta_p sin\theta_zcos(\phi_a-\phi_o)$
+
+Where:
+
+$\theta_p$ = slope angle (from DEM)
+$\theta_z$ = solar zenith
+$\phi_a$ = slope aspect (orientation of the slope from DEM)
+$\phi_o$ = solar azimuth
+
+
+---
+# Orthorectification correction 5
+
+solar azimuth and solar zenith express the position of the sun
+
+```{r echo=FALSE, out.width='75%', fig.align='center'}
+knitr::include_graphics("img/solarAngles.png")
+```
+.small[Solar zenith and solar azimuth Source:[catalyst.earth](https://catalyst.earth/catalyst-system-files/help/concepts/focus_c/atcor_aboutZenithAzimuth.html)
+]
+
+---
+# Orthorectification correction 6
+
+### Software: 
+
+* [QGIS](https://docs.qgis.org/2.6/en/docs/user_manual/processing_algs/saga/terrain_analysis_lighting/topographiccorrection.htm)
+
+* [SAGA GIS](https://saga-gis.sourceforge.io/saga_tool_doc/2.2.5/ta_lighting_4.html)
+
+* [R package topocorr](https://rdrr.io/cran/landsat/man/topocorr.html)
+
+**Note:** Atmospheric correction happens before topographic correction.
+---
+
+class: inverse, center, middle
+
+# Radiometric Calibration
+
+---
+
+# Radiometric Calibration
+
+* Sensors capture image brightness and distributed as a Digital Number (or DN) - allows for efficient storage but **has no units!**
+
+* Spectral radiance is the amount of light within a band from a sensor in the field of view (FOV)
+
+* It is independent of the sensor 
+
+* Measured in Watts (power or light here), per metre squared (surface within FOV) per steradian (angle of the view) per nanometre (wavelength) = $W m^2 sr^-1 μm^1$
+
+* DN to spectral radiance = radiometric calibration
+
+* Sensor calibration = the relationship between 
+
+.center[ $$L\lambda = Bias + (Gain * DN)$$
+$Gain$ and $Bias$ are usually provided but we can calcaulte them. 
+
+]
+
+.small[Source:[Richard Treves](https://www2.geog.soton.ac.uk/users/trevesr/obs/rseo/radiometric_calibration.html) and [University of Newcastle](https://www.ncl.ac.uk/tcmweb/bilko/module7/lesson3.pdf)]
+
+---
+
 # Remote sensing jargon 
 
 We saw in CASA0005 and we will see in this module the terms gain and offset...
@@ -401,49 +540,72 @@ knitr::include_graphics("img/gain_bias.png")
 ```
 .small[Calibration of 8-bit satellite data. Gain represents the gradient of the calibration. Bias defines the spectral radiance of the sensor for a DN of zero. Source:[Lesson 3: Radiometric correction of satellite images](https://www.ncl.ac.uk/tcmweb/bilko/module7/lesson3.pdf)
 ]
----
-
-class: inverse, center, middle
-
-# Review of atmospheric correction
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/qb4yFwzsnU8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
-class: inverse, center, middle
+# Remote sensing jargon 2
 
+*  radiance refers to any radiation leaving the Earth (i.e. upwelling,
+toward the sensor
 
-# Orthorectification correction  
+* irradiance, is used to describe downwelling radiation reaching the
+Earth from the sun
 
-
-
----
-
-# Orthorectification correction  
-
-Requires:
-
-* Sensor geometry 
-* An elevation model 
-
-```{r echo=FALSE, out.width='55%', fig.align='center'}
-knitr::include_graphics("img/orthorectification.jpg")
+```{r echo=FALSE, out.width='50%', fig.align='center'}
+knitr::include_graphics("img/radiance_irradiance.png")
 ```
-.small[A view captured from an oblique angle (for example, 25°, left) must be corrected for relief displacement caused by terrain to generate the orthorectified view (looking straight down, right). Orthoimagery is produced by calculating the nadir view for every pixel. Source:[Esri Insider, 2016](https://www.esri.com/about/newsroom/insider/what-is-orthorectified-imagery/)
+.small[Source:[Newcastle Univesrity](https://www.ncl.ac.uk/tcmweb/bilko/module7/lesson3.pdf)
 ]
 
 ---
+class: inverse, center, middle
 
-https://grass.osgeo.org/grass78/manuals/i.ortho.photo.html
+# The good news
+
+# Remote sensing products now come "corrected" - e.g. "Analysis Ready Data" or ARD
 
 ---
+# Landsat ARD - surface reflectance 
 
+> Landsat data are distributed as a surface reflectance product achieved through the Landsat
+Ecosystem Disturbance Adaptive Processing System (LEDPAS) and the Landsat 8 Surface
+Reflectance algorithm (L8SR) otherwise known as the Landsat 8 Surface Reflectance Code (LaSRC)
+for correction of atmospheric conditions (Hansen and Loveland, 2012; USGS, 2015). The former
+corrects for atmospheric effects using the Second Simulation of a Satellite Signal in the Solar
+Spectrum (6S) radiative transfer model, whilst the latter implements an internally developed
+algorithm (Hansen and Loveland, 2012; USGS, 2015).
 
+* LEDPAS
+* L8SR
+
+Now also
+
+* LaSRC (Landsat 8-9) level 2 product: https://www.usgs.gov/landsat-missions/landsat-collection-2-surface-reflectance
+
+---
 
 class: inverse, center, middle
 
-# Radiometric Calibration
+# What is a level 2 product? 
+
+## Means something has changed or advanced ...
+
+## Here it's the data and algorthims used to create the data - see: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat-C1vsC2-2021-0430-LMWS.pdf
+
+---
+class: inverse, center, middle
+
+# So why did you just make us go through all that?
+
+# In future you might come across data that isn't ARD (e.g. very high resolution, drone)
+
+# Just because someone gives you data doesn't mean you don't need to know how they created it.
 
 ---
 
+# Part 2: Joining data sets 
+
+
+
+
+---
 
