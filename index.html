@@ -32,7 +32,7 @@
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x8f77a10069042fdb82b5199d48e0f74","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xdd84e686d1d4ed6b6d60fc2277f58d5","expires":1}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
     <script src="libs/editable/editable.js"></script>
@@ -69,7 +69,7 @@ class: inverse, center, title-slide, middle
 
 ### Lecture 3: Corrections, Landsat and merging imagery
 
-### 02/02/2022 (updated: 16/03/2022)
+### 02/02/2022 (updated: 21/03/2022)
 
 <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-right:0.2em;font-size:inherit;fill:white;overflow:visible;position:relative;"><path d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"/></svg>[a.maclachlan@ucl.ac.uk](mailto:a.maclachlan@ucl.ac.uk)
 <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-right:0.2em;font-size:inherit;fill:white;overflow:visible;position:relative;"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>[andymaclachlan](https://twitter.com/andymaclachlan)
@@ -132,12 +132,36 @@ top:1em;right:1em;
 })()</script>
 </div>
 ---
+# Lecture outline
 
+.pull-left[
 
-# Outline
+### Part 1: corrections
 
+* Geometric
 
+* Atmospheric 
 
+* Orthorectification / Topographic correction
+
+* Radiometric 
+
+### Part 2: data joining and enhancement  
+
+* Feathering 
+
+* Contrast Enhancement 
+
+]
+
+.pull-right[
+&lt;img src="img/satellite.png" width="100%" /&gt;
+.small[Source:[Original from the British Library. Digitally enhanced by rawpixel.](https://www.rawpixel.com/image/571789/solar-generator-vintage-style)
+]]
+
+???
+
+Note these down and add explanations 
 
 ---
 class: inverse, center, middle
@@ -146,10 +170,27 @@ class: inverse, center, middle
 
 ## Occasionally remotely sensed images can contain flaws within them
 
+## These can be from the sensor, the atmopshere, the terrain ...and more!
 
 ---
 
 # Scan lines
+
+A rather famous example is when the scan line corrector on Landsat 7 failed... 
+
+.pull-left[
+
+&lt;img src="img/L7-SLC-off-subset.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+.small[Source:[USGS](https://www.usgs.gov/landsat-missions/landsat-7?qt-science_support_page_related_con=0#qt-science_support_page_related_con)
+]
+]
+
+.pull-right[
+
+&lt;img src="img/with-without-SLC.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+.small[Source:[USGS](https://www.usgs.gov/landsat-missions/landsat-7?qt-science_support_page_related_con=0#qt-science_support_page_related_con)
+]
+]
 
 ---
 class: inverse, center, middle
@@ -384,7 +425,7 @@ Free
 
 # Atmospheric correction types 6
 
-### Empirical Line Correction 
+### Empirical Line Correction - CHECKTHIS
 
 Then use these measurements in [linear regression against the satellite data raw digital number](https://www.l3harrisgeospatial.com/docs/atmosphericcorrection.html#empirical_line_calibration)
 
@@ -606,12 +647,122 @@ class: inverse, center, middle
 
 ---
 
+class: inverse, center, middle
+
 # Part 2: Joining data sets 
 
+---
 
+# Part 2: Joining data sets 
+
+* This is termed "Mosaicking" in remote sensing - but it's not much different to merging in GIS
+
+* In Remote Sensing we usually **feather** the images together
+
+* This creates a **seamless** mosaic or image(s)
+
+* The dividing line is termed the **seamline**
+
+* We have a base image and "other" or second image
+
+---
+
+# Joining data sets 2
+
+&lt;img src="img/EdgeFeatheringDiagram.png" width="35%" style="display: block; margin: auto;" /&gt;
+.small[Source:[Harris Geospatial](https://www.l3harrisgeospatial.com/docs/mosaicseamless.html)
+]
+
+---
+
+# Joining data sets 3
+
+The base and second image over lap - 20 to 30%
+
+From this point there are slight variations on how the method actually feathers...
+
+According to Jensen
+
+* Within the overlap area an representative sample is taken 
+* A histogram is extracted from the base image 
+* It is then applied to image to using a **histogram matching algorithm** 
+* This gives similar brightness values of the two images
+* Next feathering is conducted 
+
+---
+# Joining data sets 4
+
+.pull-left[
+&lt;img src="img/no_feathering.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+.small[Source:[WhiteboxDev, stackexchange](https://gis.stackexchange.com/questions/127310/how-to-create-a-mosaic-in-qgis-with-cutline-and-feathering-for-landsat-8-imagery)
+]]
+
+.pull-right[
+&lt;img src="img/feathering.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+.small[Source:[WhiteboxDev, stackexchange](https://gis.stackexchange.com/questions/127310/how-to-create-a-mosaic-in-qgis-with-cutline-and-feathering-for-landsat-8-imagery)
+]]
+
+---
+
+# Image Enhancement
+
+### Contrast Enhancement 
+
+* Do materials reflect different amounts of energy in the same wavelengths? 
+
+* If they did we would have good contrast, usually they don't 
+
+* Sensors are also made to avoid saturation = when the maximum DN value is exceeded, so most images have a low range. 
+
+* E.g., from Jensen...
+
+  * Image band has a range of 4 to 105
+  * 0-3 and 106-255 aren't used
+  * We can expand the range
+
+* Many methods to do this:
+
+  * Minimum - Maximum 
+  * Percentage Linear and Standard Deviation 
+  * Piecewise Linear Contrast Stretch 
+
+---
+
+# Image Enhancement 2
+
+Only applied to digital numbers
+
+&lt;img src="img/raster-image-stretch-dark.jpg" width="65%" style="display: block; margin: auto;" /&gt;
+.small[Source:[EarthLab](https://www.earthdatascience.org/courses/use-data-open-source-python/multispectral-remote-sensing/intro-naip/)
+]
 
 
 ---
+
+class: inverse, center, middle
+
+
+# Warning 
+
+# Some of these concetps could have a dedicated lecture
+
+---
+
+# Summary
+
+### Part 1: corrections
+
+* Imagery may contain error from a variety of sources
+
+* We must correct where appropriate 
+
+* We must contextualise the use of the imagery 
+
+### Part 2: data joining and enhancement  
+
+* Mosaicing in with a standard method isn't appropriate for satellite imagery 
+
+* Imagery can be restricted based on the energy reflected and the contrast between features 
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

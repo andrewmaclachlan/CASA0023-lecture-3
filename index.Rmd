@@ -100,12 +100,38 @@ xaringanExtra::use_logo(
 )
 ```
 ---
+# Lecture outline
 
+.pull-left[
 
-# Outline
+### Part 1: corrections
 
+* Geometric
 
+* Atmospheric 
 
+* Orthorectification / Topographic correction
+
+* Radiometric 
+
+### Part 2: data joining and enhancement  
+
+* Feathering 
+
+* Contrast Enhancement 
+
+]
+
+.pull-right[
+```{r echo=FALSE, out.width='100%'}
+knitr::include_graphics('img/satellite.png')
+```
+.small[Source:[Original from the British Library. Digitally enhanced by rawpixel.](https://www.rawpixel.com/image/571789/solar-generator-vintage-style)
+]]
+
+???
+
+Note these down and add explanations 
 
 ---
 class: inverse, center, middle
@@ -114,10 +140,31 @@ class: inverse, center, middle
 
 ## Occasionally remotely sensed images can contain flaws within them
 
+## These can be from the sensor, the atmopshere, the terrain ...and more!
 
 ---
 
 # Scan lines
+
+A rather famous example is when the scan line corrector on Landsat 7 failed... 
+
+.pull-left[
+
+```{r echo=FALSE, out.width='100%', fig.align='center'}
+knitr::include_graphics('img/L7-SLC-off-subset.jpg')
+```
+.small[Source:[USGS](https://www.usgs.gov/landsat-missions/landsat-7?qt-science_support_page_related_con=0#qt-science_support_page_related_con)
+]
+]
+
+.pull-right[
+
+```{r echo=FALSE, out.width='80%', fig.align='center'}
+knitr::include_graphics('img/with-without-SLC.jpg')
+```
+.small[Source:[USGS](https://www.usgs.gov/landsat-missions/landsat-7?qt-science_support_page_related_con=0#qt-science_support_page_related_con)
+]
+]
 
 ---
 class: inverse, center, middle
@@ -368,7 +415,7 @@ knitr::include_graphics('img/calibration_panel.jpg')
 
 # Atmospheric correction types 6
 
-### Empirical Line Correction 
+### Empirical Line Correction - CHECKTHIS
 
 Then use these measurements in [linear regression against the satellite data raw digital number](https://www.l3harrisgeospatial.com/docs/atmosphericcorrection.html#empirical_line_calibration)
 
@@ -602,10 +649,128 @@ class: inverse, center, middle
 
 ---
 
+class: inverse, center, middle
+
 # Part 2: Joining data sets 
 
+---
 
+# Part 2: Joining data sets 
+
+* This is termed "Mosaicking" in remote sensing - but it's not much different to merging in GIS
+
+* In Remote Sensing we usually **feather** the images together
+
+* This creates a **seamless** mosaic or image(s)
+
+* The dividing line is termed the **seamline**
+
+* We have a base image and "other" or second image
+
+---
+
+# Joining data sets 2
+
+```{r echo=FALSE, out.width='35%', fig.align='center'}
+knitr::include_graphics("img/EdgeFeatheringDiagram.png")
+```
+.small[Source:[Harris Geospatial](https://www.l3harrisgeospatial.com/docs/mosaicseamless.html)
+]
+
+---
+
+# Joining data sets 3
+
+The base and second image over lap - 20 to 30%
+
+From this point there are slight variations on how the method actually feathers...
+
+According to Jensen
+
+* Within the overlap area an representative sample is taken 
+* A histogram is extracted from the base image 
+* It is then applied to image to using a **histogram matching algorithm** 
+* This gives similar brightness values of the two images
+* Next feathering is conducted 
+
+---
+# Joining data sets 4
+
+.pull-left[
+```{r echo=FALSE, out.width='100%', fig.align='center'}
+knitr::include_graphics("img/no_feathering.jpg")
+```
+.small[Source:[WhiteboxDev, stackexchange](https://gis.stackexchange.com/questions/127310/how-to-create-a-mosaic-in-qgis-with-cutline-and-feathering-for-landsat-8-imagery)
+]]
+
+.pull-right[
+```{r echo=FALSE, out.width='100%', fig.align='center'}
+knitr::include_graphics("img/feathering.jpg")
+```
+.small[Source:[WhiteboxDev, stackexchange](https://gis.stackexchange.com/questions/127310/how-to-create-a-mosaic-in-qgis-with-cutline-and-feathering-for-landsat-8-imagery)
+]]
+
+---
+
+# Image Enhancement
+
+### Contrast Enhancement 
+
+* Do materials reflect different amounts of energy in the same wavelengths? 
+
+* If they did we would have good contrast, usually they don't 
+
+* Sensors are also made to avoid saturation = when the maximum DN value is exceeded, so most images have a low range. 
+
+* E.g., from Jensen...
+
+  * Image band has a range of 4 to 105
+  * 0-3 and 106-255 aren't used
+  * We can expand the range
+
+* Many methods to do this:
+
+  * Minimum - Maximum 
+  * Percentage Linear and Standard Deviation 
+  * Piecewise Linear Contrast Stretch 
+
+---
+
+# Image Enhancement 2
+
+Only applied to digital numbers
+
+```{r echo=FALSE, out.width='65%', fig.align='center'}
+knitr::include_graphics("img/raster-image-stretch-dark.jpg")
+```
+.small[Source:[EarthLab](https://www.earthdatascience.org/courses/use-data-open-source-python/multispectral-remote-sensing/intro-naip/)
+]
 
 
 ---
+
+class: inverse, center, middle
+
+
+# Warning 
+
+# Some of these concetps could have a dedicated lecture
+
+---
+
+# Summary
+
+### Part 1: corrections
+
+* Imagery may contain error from a variety of sources
+
+* We must correct where appropriate 
+
+* We must contextualise the use of the imagery 
+
+### Part 2: data joining and enhancement  
+
+* Mosaicing in with a standard method isn't appropriate for satellite imagery 
+
+* Imagery can be restricted based on the energy reflected and the contrast between features 
 
