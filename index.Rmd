@@ -76,6 +76,10 @@ library(fontawesome)
 
 ---
 
+```{r, echo=FALSE}
+xaringanExtra::use_progress_bar(color = "#0051BA", location = "bottom")
+```
+
 # How to use the lectures
 
 - Slides are made with [xaringan](https://slides.yihui.org/xaringan/#1)
@@ -604,6 +608,51 @@ knitr::include_graphics("img/radiance_irradiance.png")
 ]
 
 ---
+# Remote sensing jargon 2
+
+To clarify...
+
+
+.panelset[.panel[.panel-name[DN]
+
+
+Digital number (DN):
+  * Intensity of the electromagnetic radiation per pixel
+  * Pixel values that aren't calibrated and have no unit
+  * Have light source
+  * Effects of sensor + atmosphere + material
+  * Values range from 0 - 255 (Lansat 5) = 8 bit or 0 65536 Landsat 8 (12 bit)
+
+]
+
+.panel[.panel-name[Radiance]
+  
+  * Might also be called Top of Atmosphere (TOA) radiance  
+  * How much light the instrument sees in meaningful units but still have effects of:
+  * Light source, atmosphere and surface material 
+  
+We can remove the effects of the light source to generate Top of Atmosphere reflectance but usually this is combined within the radiance to reflectance step.   
+
+]
+
+.panel[.panel-name[Reflectance]
+
+  * A ratio of the amount of light leaving a target to the amount of light striking it
+  * Performed on radiance corrected data
+  * Remove effects of light source and atmosphere
+]
+
+.panel[.panel-name[Example]
+
+```{r echo=FALSE, out.width='100%', fig.align='center'}
+knitr::include_graphics("img/TOAvsSR.png")
+```
+.small[Left TOA, right Surface Reflectance. Source:[USGS](https://www.usgs.gov/landsat-missions/landsat-collection-2-surface-reflectance)
+]
+]
+]
+
+---
 class: inverse, center, middle
 
 # The good news
@@ -613,10 +662,13 @@ class: inverse, center, middle
 ---
 # Landsat ARD - surface reflectance 
 
-> Landsat data are distributed as a surface reflectance product achieved through the Landsat
+> Landsat data are 
+
+> **distributed as a surface reflectance product achieved through the Landsat
 Ecosystem Disturbance Adaptive Processing System (LEDPAS) and the Landsat 8 Surface
-Reflectance algorithm (L8SR) otherwise known as the Landsat 8 Surface Reflectance Code (LaSRC)
-for correction of atmospheric conditions (Hansen and Loveland, 2012; USGS, 2015). The former
+Reflectance algorithm (L8SR)**
+
+> otherwise known as the Landsat 8 Surface Reflectance Code (LaSRC) for correction of atmospheric conditions (Hansen and Loveland, 2012; USGS, 2015). The former
 corrects for atmospheric effects using the Second Simulation of a Satellite Signal in the Solar
 Spectrum (6S) radiative transfer model, whilst the latter implements an internally developed
 algorithm (Hansen and Loveland, 2012; USGS, 2015).
@@ -636,7 +688,7 @@ class: inverse, center, middle
 
 ## Means something has changed or advanced ...
 
-## Here it's the data and algorthims used to create the data - see: https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat-C1vsC2-2021-0430-LMWS.pdf
+## Here it's the data and algorthims used to create the data, [see the collection level summary for specific details](https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat-C1vsC2-2021-0430-LMWS.pdf)
 
 ---
 class: inverse, center, middle
@@ -711,6 +763,37 @@ knitr::include_graphics("img/feathering.jpg")
 ]]
 
 ---
+# Joining data sets 5
+
+Typically surface reflectance products are considered to
+
+> improves comparison between multiple images over the same region by accounting for atmospheric effects such as aerosol scattering and thin clouds, which can help in the detection and characterization of Earth surface change
+
+However, in practice this may differ...
+
+Probably due to each image using a model to remove the atmosphere.
+
+---
+
+# Joining data sets 6
+
+I have encountered this when trying to classify landcover over several years with 1 model. Approaches to dealing with this:
+
+* Standardization (dividing the SR value by a maximum value per band) and normalization (divide the standarised value by the sum of values across all bands) applied to each image
+
+* Undertake further relative radiometric normalization - e.g. with PIFs. Similar (but different idea) to [Chen et al. 2009](https://www.tandfonline.com/doi/pdf/10.1080/01431160903518057)
+
+* Classify each image alone
+
+* Calculate other metrics from the image...
+
+---
+
+class: inverse, center, middle
+
+# While we are here let's look at other iamge enhancements
+
+---
 
 # Image Enhancement
 
@@ -735,7 +818,6 @@ knitr::include_graphics("img/feathering.jpg")
   * Piecewise Linear Contrast Stretch 
 
 ---
-
 # Image Enhancement 2
 
 Only applied to digital numbers
@@ -745,12 +827,29 @@ knitr::include_graphics("img/raster-image-stretch-dark.jpg")
 ```
 .small[Source:[EarthLab](https://www.earthdatascience.org/courses/use-data-open-source-python/multispectral-remote-sensing/intro-naip/)
 ]
+---
+
+# Image Enhancement 3
+
+For example....in QGIS this will look like
+
+```{r echo=FALSE, out.width='65%', fig.align='center'}
+knitr::include_graphics("img/image_enhancements.png")
+```
+.small[Source:[Atilo Francois](https://www.sigterritoires.fr/index.php/en/image-classification-tutorial-with-qgis-2-2-images-enhancement/)
+]
+
+* Jensen, Chapter 8, page 283 provides a nice example!
+
+---
+# Other enhancements
+
+
 
 
 ---
 
 class: inverse, center, middle
-
 
 # Warning 
 
@@ -773,4 +872,8 @@ class: inverse, center, middle
 * Mosaicing in with a standard method isn't appropriate for satellite imagery 
 
 * Imagery can be restricted based on the energy reflected and the contrast between features 
+
+---
+
+# Task
 
