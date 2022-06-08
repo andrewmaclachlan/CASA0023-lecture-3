@@ -170,6 +170,8 @@ knitr::include_graphics('img/with-without-SLC.jpg')
 ]
 ]
 
+Imagery was still distributed but it is hard to use with methods developed to estiamte the gaps, termed gap filling. 
+
 ---
 class: inverse, center, middle
 
@@ -419,7 +421,7 @@ knitr::include_graphics('img/calibration_panel.jpg')
 
 # Atmospheric correction types 6
 
-### Empirical Line Correction - CHECKTHIS
+### Empirical Line Correction
 
 Then use these measurements in [linear regression against the satellite data raw digital number](https://www.l3harrisgeospatial.com/docs/atmosphericcorrection.html#empirical_line_calibration)
 
@@ -431,9 +433,41 @@ $BV_k$ is the Digital number for band K
 
 $p_\lambda$ is the surface reflenctance from the filed survey
 
-$B_k$ is the additive term...or...
+$B_k$ is the additive term, depicting the atmospheric path radiance component (scattering) across different paths of reflectance...see next slide
+
+The slope = attenuated (dimming and blurring from scattering of light) atmospheric correction. This is the electromagnetic wave absorption and scattering by the atmosphere.
+
+...or...
 
 $Reflectance (field spectrum) = gain * radiance (input data) + offset$]
+
+---
+
+# Empirical Line Correction 2
+
+Path radiance and atmospheric attenuation 
+
+.pull-left[
+
+**Path radiance**
+
+```{r echo=FALSE, out.width='100%', fig.align='center'}
+knitr::include_graphics("img/FABE-554.1__Fig6-atmospheric-effect-on-radiation-measured-remote-sensors.jpg")
+```
+.small[[Atmospheric effect on radiation measured by remote sensors](https://ohioline.osu.edu/factsheet/fabe-5541)
+]
+]
+
+
+.pull-right[
+
+**Atmospheric attenuation**
+
+```{r echo=FALSE, out.width='100%', fig.align='center'}
+knitr::include_graphics("img/Atmospheric-Electromagnetic-Opacity.png")
+```
+.small[Source: [GIS geography](https://gisgeography.com/atmospheric-window/)]
+]
 
 ---
 
@@ -457,17 +491,23 @@ class: inverse, center, middle
 
 georectification = giving coordiantes to an image 
 
-orthorectification = removing distortions... making the pixels viewed at nadir
+orthorectification = removing distortions... making the pixels viewed at nadir (straight)
 
+.pull-left[
 Requires:
 
 * Sensor geometry 
-* An elevation model 
+* An elevation model
 
-```{r echo=FALSE, out.width='28%', fig.align='center'}
+]
+
+
+.pull-right[
+```{r echo=FALSE, out.width='100%', fig.align='center'}
 knitr::include_graphics("img/orthorectification.jpg")
 ```
 .small[A view captured from an oblique angle (for example, 25°, left) must be corrected for relief displacement caused by terrain to generate the orthorectified view (looking straight down, right). Orthoimagery is produced by calculating the nadir view for every pixel. Source:[Esri Insider, 2016](https://www.esri.com/about/newsroom/insider/what-is-orthorectified-imagery/)
+]
 ]
 
 ---
@@ -530,10 +570,22 @@ $\phi_o$ = solar azimuth
 
 solar azimuth and solar zenith express the position of the sun
 
-```{r echo=FALSE, out.width='75%', fig.align='center'}
+.pull-left[
+
+```{r echo=FALSE, out.width='100%', fig.align='center'}
 knitr::include_graphics("img/solarAngles.png")
 ```
 .small[Solar zenith and solar azimuth Source:[catalyst.earth](https://catalyst.earth/catalyst-system-files/help/concepts/focus_c/atcor_aboutZenithAzimuth.html)
+]
+]
+
+.pull-right[
+
+```{r echo=FALSE, out.width='100%', fig.align='center'}
+knitr::include_graphics("img/Solar-azimuth-and-zenith-angles.png")
+```
+.small[Solar azimuth and zenith angles Source:[Khurum Nazir Junejo](https://www.researchgate.net/figure/Solar-azimuth-and-zenith-angles_fig7_308362887)
+]
 ]
 
 ---
@@ -546,6 +598,8 @@ knitr::include_graphics("img/solarAngles.png")
 * [SAGA GIS](https://saga-gis.sourceforge.io/saga_tool_doc/2.2.5/ta_lighting_4.html)
 
 * [R package topocorr](https://rdrr.io/cran/landsat/man/topocorr.html)
+
+* [R package RStoolbox](http://bleutner.github.io/RStoolbox/rstbx-docu/topCor.html)
 
 **Note:** Atmospheric correction happens before topographic correction.
 ---
@@ -629,7 +683,7 @@ Digital number (DN):
   
   * Might also be called Top of Atmosphere (TOA) radiance  
   * How much light the instrument sees in meaningful units but still have effects of:
-  * Light source, atmosphere and surface material 
+   * Light source, atmosphere and surface material 
   
 We can remove the effects of the light source to generate Top of Atmosphere reflectance but usually this is combined within the radiance to reflectance step.   
 
@@ -802,7 +856,6 @@ class: inverse, center, middle
 * Do materials reflect different amounts of energy in the same wavelengths? 
 
 * If they did we would have good contrast, usually they don't 
-
 * Sensors are also made to avoid saturation = when the maximum DN value is exceeded, so most images have a low range. 
 
 * E.g., from Jensen...
@@ -844,8 +897,218 @@ knitr::include_graphics("img/image_enhancements.png")
 ---
 # Other enhancements
 
+There are many enhancements that we can apply to imagery to improve the visual appearance or results....
+
+Local = specific to pixel, neighbourhood = pixels within a range (nearby)
 
 
+.panelset[.panel[.panel-name[Ratio]
+
+Band ratioing
+
+$BV_i,j,r= \frac{BV_i,j,k}{BV_i,j,l}$
+
+Where $BV_i,j,r$ is the ratio and $BV_i,j,k$ and $BV_i,j,l$ are the values in two other bands
+  * note, you may need to add .1 to 0 values and it should be atmospherically corrected
+  * can use the Sheffield Index and optimum index to select the best ratios...e.g. NDVI is a ratio of two bands and tasselled cap is also really.
+  
+See Jensen, Chapter 8, page 291 for a nice example. 
+
+
+]
+
+.panel[.panel-name[Ratio 2]
+
+.pull-left[
+Example: Normalized Burn Ratio
+
+(NIR - SWIR) / (NIR + SWIR)
+
+In Landsat 4-7, NBR = (Band 4 – Band 7) / (Band 4 + Band 7).
+
+In Landsat 8-9, NBR = (Band 5 – Band 7) / (Band 5 + Band 7).
+]
+
+.pull-right[
+```{r echo=FALSE, out.width='100%', fig.align='center'}
+knitr::include_graphics('img/SR-NBR.jpg')
+```
+.small[Source:[USGS](https://www.usgs.gov/landsat-missions/landsat-normalized-burn-ratio)
+]
+]
+
+]
+
+.panel[.panel-name[Filtering]
+  
+* Low pass or low frequency (averages the surrounding pixels)
+
+* High pass or high frequency - enhance local variations
+  * e.g. subtract the low pass filter from twice the value of the original central pixel
+  
+
+
+]
+
+.panel[.panel-name[Filtering 2]
+
+* Edge enhancement
+  * What is an edge? - change in pixel values
+  * Make edges appear in a shaded relief - like likes. 
+  * This is termed **embossing**
+  
+
+.pull-left[
+Embossing has a direction...e.g. the filter for East is 
+
+0 0 0 <br />
+1 0 -1 <br />
+0 0 0
+]
+
+.pull-right[
+Other filters aren't direction specific e.g. Laplacian 4:
+
+0 -1 0 <br />
+-1 4 -1 <br />
+0 -1 0
+
+]
+See Jensen, Chapter 8, page 300 for a nice example and many more filters
+
+]
+
+.panel[.panel-name[Filtering 3]
+
+Example: Filtering 
+
+```{r echo=FALSE, out.width='55%', fig.align='center'}
+knitr::include_graphics('img/filtering_examples.png')
+```
+.small[Source:[Dwain Casey](https://slideplayer.com/slide/10752709/)
+]
+
+]
+]
+
+---
+# Other enhancements 2
+
+.panelset[.panel[.panel-name[PCA]
+
+Principal Component
+
+* Transform multi-spectral data into uncorrelated and smaller dataset
+* Has most of the original information 
+* Reduces future computation "dimensionatliy reduction"
+* The first component will capture most of the variance within the dataset
+* In R this is `rasterPCA()` from the RStoolbox package
+
+For PCA explained watch [Josh Starmer's video](https://www.youtube.com/watch?v=FgakZw6K1QQ) or consult the [lecture slides for GEOG 4110](http://cires.colorado.edu/esoc/sites/default/files/class-files/GEOG%204110_5100%20Lecture%2015%20%28Mahsa%29.pdf)
+]
+
+.panel[.panel-name[PCA 2]
+
+PCA example, multi-date PCA - bands from both time points are combined into one image, then PCA
+
+```{r echo=FALSE, out.width='40%', fig.align='center'}
+knitr::include_graphics('img/PCA.png')
+```
+.small[Figure 4. Example of PCA-enhanced land use change information from cropland and water to urban land in the third principal component (PC3), 2003–2006. (a) RGB composition image of SPOT-5 (2003); (b) (RGB) composition image of SPOT-5 (2006); (c) the third principal component; (d) field survey photo (2006). Source:[Demg et al. 2019](https://www.mdpi.com/2072-4292/11/10/1230/htm)
+]
+
+]
+
+
+.panel[.panel-name[Texture]
+
+.pull-left[
+* Images just use tonal (spectral) data not texture
+* Texture = spatial variation of gray values 
+  * Calculate metrics (e.g. mean)
+  * Create occurrence values - number of times they occur
+  * Divide by the kernel (3x3) so 9 to make probabilities `P(i)`
+  * Assign to central pixel in kernel
+  * Multiply the pixel value by the probability from the kernel (e.g. mean)
+]
+
+.pull-right[
+  
+First order (occurrence) = use counts or occurrences 
+
+
+```{r echo=FALSE, out.width='75%', fig.align='center'}
+knitr::include_graphics('img/texture1.png')
+```
+.small[Source:[Harris](https://www.l3harrisgeospatial.com/docs/backgroundtexturemetrics.html#First-Or)
+]
+
+]
+]
+
+
+.panel[.panel-name[Texture 2nd]
+
+Second order(co-occurrence) = relationship between pixel pairs 
+  "a function of both the angular relationship and distance between two [or kernel] neighboring pixels"
+.pull-left[
+
+```{r echo=FALSE, out.width='100%', fig.align='center'}
+knitr::include_graphics('img/texture2.png')
+```
+.small[Source:[Harris](https://www.l3harrisgeospatial.com/docs/backgroundtexturemetrics.html#First-Or)
+]
+]
+
+.pull-right[
+* Difference of pixel (origin) then to right
+* Matrix of changes or co-occurence (see left, rows are reference)
+* Work out probability (value/ sum all values)
+* Plug into to calculation...e.g.mean...
+* Original value $i$ * probability of $i$ to $j$ based on matrix
+* See [Haralick video](https://www.youtube.com/watch?v=qGT1QY-z9-0)
+
+]
+]
+.panel[.panel-name[Texture 3]
+
+Texture example: first order variance
+
+```{r echo=FALSE, out.width='55%', fig.align='center'}
+knitr::include_graphics('img/variance.png')
+```
+.small[Source:[Harris](https://www.l3harrisgeospatial.com/docs/backgroundtexturemetrics.html)
+]
+]
+.panel[.panel-name[Fusion]
+
+* Image fusion is where data from multiple sensors / sources is **fused** together
+
+.pull-left[
+
+**Pan sharpen**
+
+* In Landsat the multi-spectral data (30m) can be sharpened with the panchromatic band (15m)
+
+* Usually this is **just the visible bands**, although the Gram-Schmidt algorithm also computes NIR
+
+```{r echo=FALSE, out.width='55%', fig.align='center'}
+knitr::include_graphics('img/pansharpen1.jpeg')
+```
+.small[Source:[shadedrelief](http://www.shadedrelief.com/landsat8/landsat8panchrom.html)
+]
+]
+
+.pull-right[
+**Data Fusion**
+
+Better together by [Schulte and Pettorelli, 2017](https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.12942)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/a4dW5EWbNK4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+]
+]
+]
 
 ---
 
@@ -853,7 +1116,7 @@ class: inverse, center, middle
 
 # Warning 
 
-# Some of these concetps could have a dedicated lecture
+# Some of these concepts could have a dedicated lecture
 
 ---
 
@@ -862,18 +1125,27 @@ class: inverse, center, middle
 ### Part 1: corrections
 
 * Imagery may contain error from a variety of sources
-
 * We must correct where appropriate 
-
 * We must contextualise the use of the imagery 
 
 ### Part 2: data joining and enhancement  
 
 * Mosaicing in with a standard method isn't appropriate for satellite imagery 
-
-* Imagery can be restricted based on the energy reflected and the contrast between features 
+* Imagery can be "improved" based on the energy reflected and the contrast between features 
+* But...
+  * How do these methods help in urban environments 
+  * Does adding complexity to imagery (or creating new datasets) assist us in our aim?
 
 ---
 
 # Task
+
+For the task this week select one concept from the lecture to explore in greater detail (e.g. texture analysis to remotely sensed images).
+
+Write 2-3 paragraphs supporting your responses with plots and literature:
+
+* Explain the concept (e.g. what texture analysis is)
+* Detail how it has been applied in 2 studies 
+* Reflect on the applicability / usefulness
+
 
