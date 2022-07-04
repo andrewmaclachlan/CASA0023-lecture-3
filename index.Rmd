@@ -35,7 +35,7 @@ knitr::knit_hooks$set(source = function(x, options) {
 xaringanExtra::use_broadcast()
 xaringanExtra::use_freezeframe()
 xaringanExtra::use_scribble()
-#xaringanExtra::use_slide_tone()
+xaringanExtra::use_slide_tone()
 xaringanExtra::use_search(show_icon = TRUE)
 xaringanExtra::use_freezeframe()
 xaringanExtra::use_clipboard()
@@ -64,7 +64,7 @@ library(fontawesome)
 
 # Remotely Sensing Cities and Environments
 
-### Lecture 3: Corrections, Landsat and merging imagery
+### Lecture 3: Remote sensing data
 
 ### 02/02/2022 (updated: `r format(Sys.time(), "%d/%m/%Y")`)
 
@@ -82,6 +82,8 @@ xaringanExtra::use_progress_bar(color = "#0051BA", location = "bottom")
 ```
 
 # How to use the lectures
+
+- [Fastcups](https://cups.fast.ai/CASA0023):https://cups.fast.ai/CASA0023
 
 - Slides are made with [xaringan](https://slides.yihui.org/xaringan/#1)
 
@@ -467,7 +469,7 @@ Scattering = can create the “adjacency effect”, radiance from pixels nearby 
 
 # Atmospheric correction types
 
-### Relative 
+### Relative (to something)
 
 
 * Normalize intensities of different bands within a single image
@@ -512,11 +514,25 @@ knitr::include_graphics("img/PIFs.png")
 ]
 ]
 
+---
+class: inverse, center, middle
+
+
+# Pause...
+
+## Why is the figure on the left of the previous slide not so great and misleading...?
+
+--
+
+## Always be critical
+
+## Even of published work
+
 
 ---
 # Atmospheric correction types 3
 
-### Absolute 
+### Absolute (definitive)
 
 * Change digital brightness values into scaled surface reflectance. We can **then compare these scaled surface reflectance values across the planet**
 
@@ -684,12 +700,20 @@ knitr::include_graphics("img/orthorectification.jpg")
 ]
 
 ---
+class: inverse, center, middle
+
+
+# Spot the **main** difference
+
+---
 # Orthorectification correction 2
 
 
 ```{r echo=FALSE, out.width='80%', fig.align='center'}
 knitr::include_graphics("img/keating_left_and_ortho.jpg")
 ```
+
+--
 .small[Orthorectification creates a final product whereby each pixel in the image is depicted as if it were collected from directly overhead or as close to this as possible. In the graphic above, you can see a path through the forest going from the northwest to the southeast. On the left is the original image, and on the right is the orthorectified image. In the orthorectified version, you can see that the path is now nearly straight after the influence of topography has been removed from the image. (Graphic Credit: David DiBiase, Penn State University). Source:[Apollo Mapping, 2016](https://apollomapping.com/blog/g-faq-orthorectification-part)
 ]
 
@@ -718,8 +742,6 @@ Others:
 
 ---
 # Orthorectification correction 4
-
-### Software / formulas to do this...
 
 ```{r echo=FALSE, out.width='30%', fig.align='center'}
 knitr::include_graphics("img/vza-sza.png")
@@ -852,7 +874,7 @@ Digital number (DN):
   * Pixel values that aren't calibrated and have no unit
   * Have light source
   * Effects of sensor + atmosphere + material
-  * Values range from 0 - 255 (Lansat 5) = 8 bit or 0 65536 Landsat 8 (12 bit)
+  * Values range from 0 - 255 (Lansat 5) = 8 bit or 0 - 65536 Landsat 8 (12 bit)
 
 ]
 
@@ -1131,7 +1153,8 @@ knitr::include_graphics('img/SR-NBR.jpg')
 
 * Edge enhancement
   * What is an edge? - change in pixel values
-  * Make edges appear in a shaded relief - like likes. 
+  * Make edges appear in a shaded relief - like likes.
+  * Change the coefficients applied to image (Jensen p.299)
   * This is termed **embossing**
   
 
@@ -1267,7 +1290,7 @@ knitr::include_graphics('img/variance.png')
 
 * In Landsat the multi-spectral data (30m) can be sharpened with the panchromatic band (15m)
 
-* Usually this is **just the visible bands**, although the Gram-Schmidt algorithm also computes NIR
+* Usually this is **just the visible bands**, [although the Gram-Schmidt algorithm also computes NIR](https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/fundamentals-of-pan-sharpening-pro.htm#:~:text=Pan%20sharpening%20is%20a%20radiometric,images%20of%20the%20same%20scenes.)
 
 ```{r echo=FALSE, out.width='55%', fig.align='center'}
 knitr::include_graphics('img/pansharpen1.jpeg')
@@ -1308,10 +1331,10 @@ class: inverse, center, middle
 ### Part 2: data joining and enhancement  
 
 * Mosaicing in with a standard method isn't appropriate for satellite imagery 
-* Imagery can be "improved" based on the energy reflected and the contrast between features 
+* Imagery can be "improved/enhanced" based on the energy reflected and the contrast between features 
 * But...
-  * How do these methods help in urban environments 
-  * Does adding complexity to imagery (or creating new datasets) assist us in our aim?
+  * How do these methods help **in urban environments** 
+  * Does adding complexity to imagery (or creating new datasets) **assist us** in our aim?
 
 ---
 
@@ -1325,4 +1348,13 @@ Write 2-3 paragraphs supporting your responses with plots and literature:
 * Detail how it has been applied in 2 studies 
 * Reflect on the applicability / usefulness
 
+---
+
+# Reading
+
+```{r echo=FALSE, out.width='45%', fig.align='center'}
+knitr::include_graphics("img/jensen.jpg")
+```
+
+[UCL library book](https://ucl.primo.exlibrisgroup.com/permalink/44UCL_INST/hd4h9s/alma990029754750204761)
 

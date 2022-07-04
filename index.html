@@ -20,6 +20,8 @@
     <link href="libs/xaringanExtra-scribble/scribble.css" rel="stylesheet" />
     <script src="libs/xaringanExtra-scribble/scribble.js"></script>
     <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <script src="libs/tone/Tone.js"></script>
+    <script src="libs/slide-tone/slide-tone.js"></script>
     <script src="libs/mark.js/mark.min.js"></script>
     <link href="libs/xaringanExtra-search/search.css" rel="stylesheet" />
     <script src="libs/xaringanExtra-search/search.js"></script>
@@ -32,7 +34,7 @@
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xfba3827bd7f4c5eaa2922820e571200","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"dc3aa069050245168c78752314ec352c","expires":1}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
     <script src="libs/editable/editable.js"></script>
@@ -68,7 +70,7 @@ class: inverse, center, title-slide, middle
 
 # Remotely Sensing Cities and Environments
 
-### Lecture 3: Corrections, Landsat and merging imagery
+### Lecture 3: Remote sensing data
 
 ### 02/02/2022 (updated: 04/07/2022)
 
@@ -103,6 +105,8 @@ class: inverse, center, title-slide, middle
 }</style>
 
 # How to use the lectures
+
+- [Fastcups](https://cups.fast.ai/CASA0023):https://cups.fast.ai/CASA0023
 
 - Slides are made with [xaringan](https://slides.yihui.org/xaringan/#1)
 
@@ -488,7 +492,7 @@ Scattering = can create the “adjacency effect”, radiance from pixels nearby 
 
 # Atmospheric correction types
 
-### Relative 
+### Relative (to something)
 
 
 * Normalize intensities of different bands within a single image
@@ -529,11 +533,25 @@ Scattering = can create the “adjacency effect”, radiance from pixels nearby 
 ]
 ]
 
+---
+class: inverse, center, middle
+
+
+# Pause...
+
+## Why is the figure on the left of the previous slide not so great and misleading...?
+
+--
+
+## Always be critical
+
+## Even of published work
+
 
 ---
 # Atmospheric correction types 3
 
-### Absolute 
+### Absolute (definitive)
 
 * Change digital brightness values into scaled surface reflectance. We can **then compare these scaled surface reflectance values across the planet**
 
@@ -689,10 +707,18 @@ Requires:
 ]
 
 ---
+class: inverse, center, middle
+
+
+# Spot the **main** difference
+
+---
 # Orthorectification correction 2
 
 
 &lt;img src="img/keating_left_and_ortho.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+
+--
 .small[Orthorectification creates a final product whereby each pixel in the image is depicted as if it were collected from directly overhead or as close to this as possible. In the graphic above, you can see a path through the forest going from the northwest to the southeast. On the left is the original image, and on the right is the orthorectified image. In the orthorectified version, you can see that the path is now nearly straight after the influence of topography has been removed from the image. (Graphic Credit: David DiBiase, Penn State University). Source:[Apollo Mapping, 2016](https://apollomapping.com/blog/g-faq-orthorectification-part)
 ]
 
@@ -721,8 +747,6 @@ Others:
 
 ---
 # Orthorectification correction 4
-
-### Software / formulas to do this...
 
 &lt;img src="img/vza-sza.png" width="30%" style="display: block; margin: auto;" /&gt;
 .small[Schematic illustration of the Solar Zenith Angle (SZA) and Viewing Zenith Angle (VZA) for observations from satellite-based instrument. [image taken from a NASA page](https://sacs.aeronomie.be/info/sza.php)
@@ -845,7 +869,7 @@ Digital number (DN):
   * Pixel values that aren't calibrated and have no unit
   * Have light source
   * Effects of sensor + atmosphere + material
-  * Values range from 0 - 255 (Lansat 5) = 8 bit or 0 65536 Landsat 8 (12 bit)
+  * Values range from 0 - 255 (Lansat 5) = 8 bit or 0 - 65536 Landsat 8 (12 bit)
 
 ]
 
@@ -1110,7 +1134,8 @@ In Landsat 8-9, NBR = (Band 5 – Band 7) / (Band 5 + Band 7).
 
 * Edge enhancement
   * What is an edge? - change in pixel values
-  * Make edges appear in a shaded relief - like likes. 
+  * Make edges appear in a shaded relief - like likes.
+  * Change the coefficients applied to image (Jensen p.299)
   * This is termed **embossing**
   
 
@@ -1236,7 +1261,7 @@ Texture example: first order variance
 
 * In Landsat the multi-spectral data (30m) can be sharpened with the panchromatic band (15m)
 
-* Usually this is **just the visible bands**, although the Gram-Schmidt algorithm also computes NIR
+* Usually this is **just the visible bands**, [although the Gram-Schmidt algorithm also computes NIR](https://pro.arcgis.com/en/pro-app/latest/help/analysis/raster-functions/fundamentals-of-pan-sharpening-pro.htm#:~:text=Pan%20sharpening%20is%20a%20radiometric,images%20of%20the%20same%20scenes.)
 
 &lt;img src="img/pansharpen1.jpeg" width="55%" style="display: block; margin: auto;" /&gt;
 .small[Source:[shadedrelief](http://www.shadedrelief.com/landsat8/landsat8panchrom.html)
@@ -1275,10 +1300,10 @@ class: inverse, center, middle
 ### Part 2: data joining and enhancement  
 
 * Mosaicing in with a standard method isn't appropriate for satellite imagery 
-* Imagery can be "improved" based on the energy reflected and the contrast between features 
+* Imagery can be "improved/enhanced" based on the energy reflected and the contrast between features 
 * But...
-  * How do these methods help in urban environments 
-  * Does adding complexity to imagery (or creating new datasets) assist us in our aim?
+  * How do these methods help **in urban environments** 
+  * Does adding complexity to imagery (or creating new datasets) **assist us** in our aim?
 
 ---
 
@@ -1292,6 +1317,13 @@ Write 2-3 paragraphs supporting your responses with plots and literature:
 * Detail how it has been applied in 2 studies 
 * Reflect on the applicability / usefulness
 
+---
+
+# Reading
+
+&lt;img src="img/jensen.jpg" width="45%" style="display: block; margin: auto;" /&gt;
+
+[UCL library book](https://ucl.primo.exlibrisgroup.com/permalink/44UCL_INST/hd4h9s/alma990029754750204761)
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
