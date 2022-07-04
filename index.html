@@ -32,7 +32,7 @@
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"bffde81dab9e4b558529a7ea01597cee","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xfba3827bd7f4c5eaa2922820e571200","expires":1}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
     <script src="libs/editable/editable.js"></script>
@@ -70,7 +70,7 @@ class: inverse, center, title-slide, middle
 
 ### Lecture 3: Corrections, Landsat and merging imagery
 
-### 02/02/2022 (updated: 20/06/2022)
+### 02/02/2022 (updated: 04/07/2022)
 
 <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:white;overflow:visible;position:relative;"><path d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"/></svg>[a.maclachlan@ucl.ac.uk](mailto:a.maclachlan@ucl.ac.uk)
 <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:white;overflow:visible;position:relative;"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>[andymaclachlan](https://twitter.com/andymaclachlan)
@@ -154,6 +154,94 @@ top:1em;right:1em;
 })()</script>
 </div>
 ---
+
+class: inverse, center, middle
+
+
+# Before we begin 
+
+
+---
+
+# A Trip Through Time With Landsat 9
+
+
+.center[
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/up9oDz49QXI?start=200" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+]
+
+.small[A Trip Through Time With Landsat 9 .Source:[NASA Goddard](https://svs.gsfc.nasa.gov/13890)
+]
+
+---
+
+# The woman who brought us the world
+
+
+.pull-left[
+
+* NASA wanted to use a RBV camera - TV camera
+
+* Norwood thought that a digital Multispectral camera (MSS) would be much better.
+
+* MSS
+
+* Norwood given $100,000
+
+* NASA doubted it could be digital 
+
+* Used a pivoting mirror not scanner
+
+* NASA would use this and it became **the standard for the future of remote sensing**
+
+]
+
+.pull-right[
+
+&lt;img src="img/norwood.png" width="100%" style="display: block; margin: auto;" /&gt;
+.small[Norwood and Labor Secretary James Hodgson discuss how Landsat’s multispectral scanner works at a conference in 1972.Source:[MIT Technology Review. COURTESY OF VIRGINIA NORWOOD](https://www.technologyreview.com/2021/06/29/1025732/the-woman-who-brought-us-the-world/)
+]]
+
+---
+
+# The woman who brought us the world 2
+
+.pull-left[
+
+* No time for a final product
+
+* The prototype was used on the satellite 
+
+* Still, most people thought the tv cameras were more useful 😜
+
+]
+
+.pull-right[
+
+&lt;img src="img/MSS_test.png" width="100%" style="display: block; margin: auto;" /&gt;
+.small[A test version of Norwood’s multispectral scanner captured this false-color image of Half Dome from a truck two months before Landsat 1’s launch.Source:[MIT Technology Review. COURTESY OF NASA](https://www.technologyreview.com/2021/06/29/1025732/the-woman-who-brought-us-the-world/)
+]]
+
+
+---
+
+# The woman who brought us the world 3
+
+
+&lt;img src="img/5262-Landsat-timeline-FNL-2.jpg" width="75%" style="display: block; margin: auto;" /&gt;
+.small[Landsat Satellite Missions.Source:[USGS](https://www.usgs.gov/landsat-missions/landsat-satellite-missions)]
+
+
+---
+# The woman who brought us the world 4
+
+
+&lt;img src="img/landsat_downloads_users.png" width="100%" style="display: block; margin: auto;" /&gt;
+.small[Landsat Downloads and Use Data .Source:[Goddard Media Studios](https://svs.gsfc.nasa.gov/11458)]
+
+
+
+---
 # Lecture outline
 
 .pull-left[
@@ -172,7 +260,7 @@ top:1em;right:1em;
 
 * Feathering 
 
-* Contrast Enhancement 
+* Image enhancement 
 
 ]
 
@@ -200,6 +288,8 @@ class: inverse, center, middle
 
 A rather famous example is when the scan line corrector on Landsat 7 failed... 
 
+It moves in a zig zag and the corrector made the image normal
+
 .pull-left[
 
 &lt;img src="img/L7-SLC-off-subset.jpg" width="100%" style="display: block; margin: auto;" /&gt;
@@ -215,6 +305,37 @@ A rather famous example is when the scan line corrector on Landsat 7 failed...
 ]
 
 Imagery was still distributed but it is hard to use with methods developed to estiamte the gaps, termed gap filling. 
+
+---
+# Recall regression....
+
+.pull-left[
+
+We will see this **three times** throughout the next few slides...
+
+`$$y_i = \beta_0 + \beta_1x_i + \epsilon_i$$`
+
+where:
+
+`\(\beta_0\)` is the intercept (the value of `\(y\)` when `\(x = 0\)`)
+
+`\(\beta_1\)` the 'slope'  the change in the value of `\(y\)` for a 1 unit change in the value of `\(x\)` (the slope of the blue line)
+
+`\(\epsilon_i\)` is a random error term (positive or negative) 
+
+Any value of `\(y\)` along the blue line can be modeled using the corresponding value of `\(x\)` 
+
+]
+.pull-right[
+
+&lt;img src="img/regression.png" width="100%" style="display: block; margin: auto;" /&gt;
+.small[Source:[CASA0005](https://andrewmaclachlan.github.io/CASA0005repo/explaining-spatial-patterns.html#analysing-gcse-exam-performance---testing-a-research-hypothesis)
+]
+
+what are the factors that might lead to variation in Average GCSE point scores:
+* independent **predictor** variable (unauthorised absence)
+* dependent variable (GCSE point score)
+]
 
 ---
 class: inverse, center, middle
@@ -251,6 +372,12 @@ But when remotely sensed data is collected image distortions can be introduced d
 
 ---
 
+# Geometric correction
+&lt;img src="img/Geometric-correction-procedures.png" width="55%" style="display: block; margin: auto;" /&gt;
+.small[Source:[Abdul Basith](https://www.researchgate.net/figure/Geometric-correction-procedures_fig7_320710942)]
+
+---
+
 # Geometric correction solution
 
 * We identify Ground Control Points (GPS) to match known points in the image and a reference dataset
@@ -282,15 +409,18 @@ RMSE
   * sum them and divide by number of data points
   * square root that total
   
-* [The model with the lowest RMSE will fit best](https://gis.stackexchange.com/questions/8900/generally-accepted-root-mean-square-rms-error-for-rectifying-topographic-maps) ...   
+* [The model with the lowest RMSE will fit best](https://gis.stackexchange.com/questions/8900/generally-accepted-root-mean-square-rms-error-for-rectifying-topographic-maps) ...  Jensen sets a RMSE value of 0.5
 
 When we do this we also might shift the data slightly ...so we must re-sample the final raster:
 
 .pull-left[
-  * Nearest Neighbor
-  * Linear
-  * Cubic
-  * Cubic spline
+
+Resample methods
+
+* Nearest Neighbor
+* Linear
+* Cubic
+* Cubic spline
 ]
 
 .pull-right[
@@ -299,7 +429,21 @@ When we do this we also might shift the data slightly ...so we must re-sample th
 ]
 ]
 ---
+# Geometric correction solution 2...
 
+This is the same process used when you see an old map (e.g. printed or manual) in a GIS
+
+&lt;img src="img/georeference.png" width="70%" style="display: block; margin: auto;" /&gt;
+.small[Source:[QGIS Tutorials and Tips](https://fis.uni-bonn.de/en/recherchetools/infobox/professionals/preprocessing/geometric-correction)
+]
+---
+
+class: inverse, center, middle
+
+
+# Atmospheric correction 
+
+---
 # Atmospheric correction  
 
 According to Jensen the two most important sources of environmental attenuation are:
@@ -431,7 +575,7 @@ Free
 
 ### Empirical Line Correction 
 
-* We can go and take measurements in situ using a field spectrometer 
+* We can go and take measurements in situ using [a field spectrometer](https://fsf.nerc.ac.uk/resources/guides/pdf_guides/asd_guide_v2_wr.pdf) 
 
 * This does require measurements at the same time as the satellite overpass....
 
@@ -447,9 +591,7 @@ Free
 
 ---
 
-# Atmospheric correction types 6
-
-### Empirical Line Correction
+# Empirical Line Correction
 
 Then use these measurements in [linear regression against the satellite data raw digital number](https://www.l3harrisgeospatial.com/docs/atmosphericcorrection.html#empirical_line_calibration)
 
@@ -457,21 +599,35 @@ Then use these measurements in [linear regression against the satellite data raw
 
 `\(BV_k= p_\lambda A_k +B_k\)`
 
+
 `\(BV_k\)` is the Digital number for band K
+
 
 `\(p_\lambda\)` is the surface reflenctance from the filed survey
 
-`\(B_k\)` is the additive term, depicting the atmospheric path radiance component (scattering) across different paths of reflectance...see next slide
+
+`\(B_k\)` is the additive term, depicting the atmospheric path radiance component (scattering) across different paths of reflectance...see next slides
+
 
 The slope = attenuated (dimming and blurring from scattering of light) atmospheric correction. This is the electromagnetic wave absorption and scattering by the atmosphere.
 
 ...or...
+]
+---
 
-`\(Reflectance (field spectrum) = gain * radiance (input data) + offset\)`]
+
+# Empirical Line Correction 2
+
+
+`\(Reflectance (field spectrum) = gain * radiance (input data) + offset\)`
+
+&lt;img src="img/Application-of-the-empirical-line-atmospheric-correction-method-The-intercept-on-the.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+.small[Source:[Source: David P. Groeneveld](https://www.researchgate.net/figure/Example-of-an-empirical-line-using-two-targets-of-contrasting-albedo_fig1_241396033)]
 
 ---
 
-# Empirical Line Correction 2
+# Empirical Line Correction 3
 
 Path radiance and atmospheric attenuation 
 
@@ -511,11 +667,11 @@ class: inverse, center, middle
 
 # Orthorectification correction  
 
-## A subset of georectification 
+A **subset** of georectification 
 
-georectification = giving coordiantes to an image 
+* georectification = giving coordinates to an image 
 
-orthorectification = removing distortions... making the pixels viewed at nadir (straight)
+* orthorectification = removing distortions... making the pixels viewed at nadir (straight down)
 
 .pull-left[
 Requires:
@@ -552,12 +708,13 @@ Jensen covers the following formulas:
   * `\(L_H= L_T\frac{cos\theta_O}{\cos_i}\)`
   
   Where
-  * `\(L_T\)` = radiance from sloped terrain
+  * `\(L_T\)` = radiance (DN to TOA) from sloped terrain
   * `\(\theta_O\)` = Sun's zenith angle
   * `\(i\)` = Sun's incidence angle - cosine of the angle between the solar zenith
 and the normal line of the slope
   * Latter two found in angle coefficient files (e.g. Landsat data ANG.txt)
 
+Others:
 * Minnaert correction
 * Statistical Empirical correction 
 * C Correction (advancing the Cosine)
@@ -586,7 +743,10 @@ Where:
 ---
 # Orthorectification correction 5
 
-solar azimuth and solar zenith express the position of the sun
+solar azimuth = compass angle of the sun (N =0°) 90° (E) at sunrise and 270° (W) at sunset. See [Azimuth Angle animation](https://www.pveducation.org/pvcdrom/properties-of-sunlight/azimuth-angle)
+
+
+solar zenith = angle of local zenith (above the point on ground) and sun from vertical (90° - elevation)
 
 .pull-left[
 
@@ -634,7 +794,7 @@ class: inverse, center, middle
 
 * Measured in Watts (power or light here), per metre squared (surface within FOV) per steradian (angle of the view) per nanometre (wavelength) = `\(W m^2 sr^-1 μm^1\)`
 
-* DN to spectral radiance = radiometric calibration
+* DN to **spectral radiance** = radiometric calibration
 
 * Sensor calibration = the relationship between 
 
@@ -765,7 +925,7 @@ class: inverse, center, middle
 
 class: inverse, center, middle
 
-# Part 2: Joining data sets 
+# Part 2: Joining data sets / enhancements
 
 ---
 
