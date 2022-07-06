@@ -561,6 +561,7 @@ class: inverse, center, middle
 * FLAASH - Fast Line of-sight Atmopsheric Analysis 
 * QUAC - Quick Atmopsheric Correction 
 * ATCOR - The ATmospheric CORrection program 
+* See Jensen page 216
 
 
 Free
@@ -1105,7 +1106,7 @@ Local = specific to pixel, neighbourhood = pixels within a range (nearby)
 
 Band ratioing
 
-$BV_{i,j,r}= \frac{BV_{i,j,k}{BV_{i,j,l}$
+$BV_{i,j,r}= \frac{BV_{i,j,k}}{BV_{i,j,l}}$
 
 Where $BV_{i,j,r}$ is the ratio and $BV_{i,j,k}$ and $BV_{i,j,l}$ are the values in two other bands
   * note, you may need to add .1 to 0 values and it should be atmospherically corrected
