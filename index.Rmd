@@ -88,7 +88,7 @@ xaringanExtra::use_progress_bar(color = "#0051BA", location = "bottom")
 
 # How to use the lectures
 
-- [Fastcups](https://cups.fast.ai/CASA0023):https://cups.fast.ai/CASA0023
+- [Fastcups](https://cups.fast.ai/CASA0023):https://cups.fast.ai/CASA0023)
 
 - Slides are made with [xaringan](https://slides.yihui.org/xaringan/#1)
 
