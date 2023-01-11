@@ -897,11 +897,25 @@ We can remove the effects of the light source to generate Top of Atmosphere refl
 
 ]
 
+
 .panel[.panel-name[Reflectance]
+
+Reflectance is a property of a material (e.g. reflectance of grass is a property of grass)
 
   * A ratio of the amount of light leaving a target to the amount of light striking it
   * Performed on radiance corrected data
   * Remove effects of light source and atmosphere
+  
+If/ BUT
+
+* All of the light leaving the surface goes to the sensor (nothing is intercepted or at an angle) = **hemispherical reflectance**
+
+* We need to account for atmospheric and illumination effects to create reflectance. BUT this typically doesn't deal with shadows and directional effects (e.g. viewing angles) = **apparent reflectance** However, this is often called **reflectance**
+
+.small[Landsat Collection 2 Surface Reflectance. Source:[USGS](https://www.usgs.gov/landsat-missions/landsat-collection-2-surface-reflectance)]
+
+.small[Radiance vs. Reflectance. Source:[l3harrisgeospatial](https://www.l3harrisgeospatial.com/Support/Self-Help-Tools/Help-Articles/Help-Articles-Detail/ArtMID/10220/ArticleID/19247/3377)]
+
 ]
 
 .panel[.panel-name[Example]
