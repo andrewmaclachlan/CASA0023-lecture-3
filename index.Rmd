@@ -891,7 +891,7 @@ Digital number (DN):
   
   * Might also be called Top of Atmosphere (TOA) radiance  
   * How much light the instrument sees in meaningful units but still have effects of:
-   * Light source, atmosphere and surface material 
+   * **Light source**, atmosphere and surface material 
   
 We can remove the effects of the light source to generate Top of Atmosphere reflectance but usually this is combined within the radiance to reflectance step.   
 
@@ -904,11 +904,36 @@ Reflectance is a property of a material (e.g. reflectance of grass is a property
 
   * A ratio of the amount of light leaving a target to the amount of light striking it
   * Performed on radiance corrected data
-  * Remove effects of light source and atmosphere
-  
-If/ BUT
 
-* All of the light leaving the surface goes to the sensor (nothing is intercepted or at an angle) = **hemispherical reflectance**
+Typically this comes as surface reflectance (Bottom of Atmosphere) but can also be Top of Atmosphere reflectance....
+
+]
+
+.panel[.panel-name[Reflectance 2]
+
+The issue with radiance is that is contains physical properties AND is dependent on the light source
+
+**TOA reflectance**
+
+We can convert TOA radiance to TOA reflectance
+
+  * Mesaure radiation going down and up in a ring, divide one by the other
+
+  * Remove effects of light source
+
+**Surface reflectance**  
+  
+  * Remove effects of light source **and atmosphere**...
+  
+.small[Calculations of TOA radiance and TOA reflectance. Source:[Open Library](https://ecampusontario.pressbooks.pub/remotesensing/chapter/chapter-3-calculations-of-toa-radiance-and-toa-reflectance/)]
+  
+]
+
+.panel[.panel-name[If/But]
+
+If/ But
+
+* All of the light leaving the surface goes straight to the sensor (nothing is intercepted or at an angle) = **hemispherical reflectance**
 
 * We need to account for atmospheric and illumination effects to create reflectance. BUT this typically doesn't deal with shadows and directional effects (e.g. viewing angles) = **apparent reflectance** However, this is often called **reflectance**
 
