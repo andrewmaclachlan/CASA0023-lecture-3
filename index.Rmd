@@ -90,7 +90,7 @@ xaringanExtra::use_progress_bar(color = "#0051BA", location = "bottom")
 
 # How to use the lectures
 
-- [Fastcups](https://cups.fast.ai/CASA0023):https://cups.fast.ai/CASA0023)
+- [Fastcups](https://cups.fast.ai/CASA0023)
 
 - Slides are made with [xaringan](https://slides.yihui.org/xaringan/#1)
 
@@ -446,7 +446,7 @@ knitr::include_graphics('img/Geometric-correction-procedures.png')
 .pull-left[
 
 * We take the coordinates and model them to give geometric transformation coefficients 
-* Think back to GIS - linear regression with our distorted x or y as the dependent
+* Think back to GIS - **linear regression with our distorted x or y as the dependent or independent***
 
 * We then plot these and try to minimise the RMSE - Jensen sets a RMSE value of 0.5
 ]
@@ -460,6 +460,42 @@ knitr::include_graphics('img/Geometric-correction-procedures.png')
 ]
 ---
 
+# Geometric correction solution modelling
+
+**Jensen page 244 describes:**
+
+input to output (forward mapping), for the new x:
+
+$$x = a_0 + a_1x^i + a_2y^i + \epsilon_i$$
+for the new y:
+
+$$y = b_0 + b_1x^i + b_2y^i + \epsilon_i$$
+
+Where $x$ and $y$ are positions in the rectified (gold standard) map 
+
+**But** the issue with this is that we are modelling the rectified $x$ and $y$ which could fall anywhere on the gold standard map (e.g. not on a grid square or at a floating point)
+
+---
+
+# Geometric correction solution modelling
+
+**Jensen page 244 describes:**
+
+output to input (backward mapping), for the new x:
+
+$$x^i = a_0 + a_1x + a_2y + \epsilon_i$$
+
+for the new y:
+
+$$y^i = b_0 + b_1x + b_2y + \epsilon_i$$
+
+
+See the image of [Jensen, page 247](https://read.kortext.com/reader/pdf/1872407/247)
+
+This means for every value in the output (gold standard) pixel we can get a value in the original input image. **The images are distorted as so might not completely overlap**
+
+---
+
 # Geometric correction solution 2...
 
 RMSE
@@ -467,7 +503,7 @@ RMSE
   * sum them and divide by number of data points
   * square root that total
   
-* [The model with the lowest RMSE will fit best](https://gis.stackexchange.com/questions/8900/generally-accepted-root-mean-square-rms-error-for-rectifying-topographic-maps) ...  Jensen sets a RMSE value of 0.5
+* [The model with the lowest RMSE will fit best](https://gis.stackexchange.com/questions/8900/generally-accepted-root-mean-square-rms-error-for-rectifying-topographic-maps) ...  Jensen sets a RMSE value of 0.5...typically you might add more GCPs to reduce the RMSE.
 
 When we do this we also might shift the data slightly ...so we must re-sample the final raster:
 
@@ -718,11 +754,11 @@ knitr::include_graphics('img/Application-of-the-empirical-line-atmospheric-corre
 
 # Empirical Line Correction 3
 
-Path radiance and atmospheric attenuation 
-
 .pull-left[
 
 **Path radiance**
+
+* radiance reflected above the surface (e.g. scattering)
 
 ```{r echo=FALSE, out.width='100%', fig.align='center'}
 knitr::include_graphics("img/FABE-554.1__Fig6-atmospheric-effect-on-radiation-measured-remote-sensors.jpg")
@@ -735,6 +771,8 @@ knitr::include_graphics("img/FABE-554.1__Fig6-atmospheric-effect-on-radiation-me
 .pull-right[
 
 **Atmospheric attenuation**
+
+* absorption of EMR due to materials in atmosphere (e.g. water vapour)
 
 ```{r echo=FALSE, out.width='100%', fig.align='center'}
 knitr::include_graphics("img/Atmospheric-Electromagnetic-Opacity.png")
