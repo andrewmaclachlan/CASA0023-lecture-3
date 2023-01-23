@@ -1107,7 +1107,7 @@ Now also
 
 ---
 
-class: inverse, center, middle
+class: center, middle
 
 # What is a level 2 product? 
 
@@ -1402,6 +1402,7 @@ knitr::include_graphics('img/PCA.png')
   * Divide by the kernel (3x3) so 9 to make probabilities `P(i)`
   * Times each value by the probability
   * Sum (in the case of mean)
+  * [See Andy's worked example](https://github.com/andrewmaclachlan/CASA0023-lecture-3/blob/main/texture_worked_example.xlsx)
 ]
 
 .pull-right[
@@ -1438,6 +1439,7 @@ knitr::include_graphics('img/texture2.png')
 * Work out probability (value/ sum all values)
 * Plug into to calculation...original value * probability of change
 * Sum (in the case of mean)
+* [See Andy's worked example](https://github.com/andrewmaclachlan/CASA0023-lecture-3/blob/main/texture_worked_example.xlsx)
 * See [Haralick video](https://www.youtube.com/watch?v=qGT1QY-z9-0)
 
 ]
