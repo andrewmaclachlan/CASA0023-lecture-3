@@ -32,7 +32,7 @@
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x06385f5a5ac4bdbbe48c63df0ac7a17","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"fe5efafdfbc744b88778a806ccd6459c","expires":1}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
     <script src="libs/editable/editable.js"></script>
@@ -508,6 +508,8 @@ See the image of [Jensen, page 247](https://read.kortext.com/reader/pdf/1872407/
 
 This means for every value in the output (gold standard) pixel we can get a value in the original input image. **The images are distorted as so might not completely overlap**
 
+**The goal is to match the distorted image with the gold standard image....so we want the pixels to line up**
+
 ---
 
 # Geometric correction solution 2...
@@ -874,7 +876,7 @@ Where:
 
 `\(\theta_p\)` = slope angle (from DEM)
 `\(\theta_z\)` = solar zenith
-`\(\phi_a\)` = slope aspect (orientation of the slope from DEM)
+`\(\phi_a\)` = slope aspect (orientation of the slope from DEM (e.g. S =180))
 `\(\phi_o\)` = solar azimuth
 
 
@@ -1358,8 +1360,8 @@ PCA example, multi-date PCA - bands from both time points are combined into one 
   * Calculate metrics (e.g. mean)
   * Create occurrence values - number of times they occur
   * Divide by the kernel (3x3) so 9 to make probabilities `P(i)`
-  * Sum all probability values in kernel
-  * Multiply the pixel value by the probability from the kernel (e.g. mean)
+  * Times each value by the probability
+  * Sum (in the case of mean)
 ]
 
 .pull-right[
@@ -1390,8 +1392,8 @@ Second order(co-occurrence) = relationship between pixel pairs
 * Difference of pixel (origin) then to right
 * Matrix of changes or co-occurence (see left, rows are reference)
 * Work out probability (value/ sum all values)
-* Plug into to calculation...e.g.mean...
-* Original value `\(i\)` * probability of `\(i\)` to `\(j\)` based on matrix
+* Plug into to calculation...original value * probability of change
+* Sum (in the case of mean)
 * See [Haralick video](https://www.youtube.com/watch?v=qGT1QY-z9-0)
 
 ]

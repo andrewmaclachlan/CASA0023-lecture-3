@@ -155,7 +155,7 @@ class: inverse, center, middle
 
 .pull-right[
 
-``````{r echo=FALSE, out.width='100%', fig.align='center'}
+```{r echo=FALSE, out.width='100%', fig.align='center'}
 knitr::include_graphics('img/norwood.png')
 ```
 .small[Norwood and Labor Secretary James Hodgson discuss how Landsat’s multispectral scanner works at a conference in 1972.Source:[MIT Technology Review. COURTESY OF VIRGINIA NORWOOD](https://www.technologyreview.com/2021/06/29/1025732/the-woman-who-brought-us-the-world/)
@@ -493,6 +493,8 @@ $$y^i = b_0 + b_1x + b_2y + \epsilon_i$$
 See the image of [Jensen, page 247](https://read.kortext.com/reader/pdf/1872407/247)
 
 This means for every value in the output (gold standard) pixel we can get a value in the original input image. **The images are distorted as so might not completely overlap**
+
+**The goal is to match the distorted image with the gold standard image....so we want the pixels to line up**
 
 ---
 
@@ -888,7 +890,7 @@ Where:
 
 $\theta_p$ = slope angle (from DEM)
 $\theta_z$ = solar zenith
-$\phi_a$ = slope aspect (orientation of the slope from DEM)
+$\phi_a$ = slope aspect (orientation of the slope from DEM (e.g. S =180))
 $\phi_o$ = solar azimuth
 
 
@@ -1398,8 +1400,8 @@ knitr::include_graphics('img/PCA.png')
   * Calculate metrics (e.g. mean)
   * Create occurrence values - number of times they occur
   * Divide by the kernel (3x3) so 9 to make probabilities `P(i)`
-  * Sum all probability values in kernel
-  * Multiply the pixel value by the probability from the kernel (e.g. mean)
+  * Times each value by the probability
+  * Sum (in the case of mean)
 ]
 
 .pull-right[
@@ -1434,8 +1436,8 @@ knitr::include_graphics('img/texture2.png')
 * Difference of pixel (origin) then to right
 * Matrix of changes or co-occurence (see left, rows are reference)
 * Work out probability (value/ sum all values)
-* Plug into to calculation...e.g.mean...
-* Original value $i$ * probability of $i$ to $j$ based on matrix
+* Plug into to calculation...original value * probability of change
+* Sum (in the case of mean)
 * See [Haralick video](https://www.youtube.com/watch?v=qGT1QY-z9-0)
 
 ]
