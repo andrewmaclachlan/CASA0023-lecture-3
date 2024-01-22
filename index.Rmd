@@ -334,7 +334,7 @@ class: inverse, center, middle
 
 A rather famous example is when the scan line corrector on Landsat 7 failed... 
 
-It moves in a zig zag and the corrector made the image normal
+As satellite moves forward whilst scanning it must be corrected...
 
 .pull-left[
 
@@ -354,7 +354,7 @@ knitr::include_graphics('img/with-without-SLC.jpg')
 ]
 ]
 
-Imagery was still distributed but it is hard to use with methods developed to estiamte the gaps, termed gap filling. 
+Imagery was still distributed but it is hard to use with methods developed to estimate the gaps, termed gap filling. 
 
 ---
 # Recall regression....
@@ -448,7 +448,7 @@ knitr::include_graphics('img/Geometric-correction-procedures.png')
 * We take the coordinates and model them to give geometric transformation coefficients 
 * Think back to GIS - **linear regression with our distorted x or y as the dependent or independent***
 
-* We then plot these and try to minimise the RMSE - Jensen sets a RMSE value of 0.5
+* We then plot these and try to minimise the RMSE (in 3 slides) - Jensen sets a RMSE value of 0.5
 ]
 
 
@@ -471,9 +471,14 @@ for the new y:
 
 $$y = b_0 + b_1x^i + b_2y^i + \epsilon_i$$
 
-Where $x$ and $y$ are positions in the rectified (gold standard) map 
+Where 
 
-**But** the issue with this is that we are modelling the rectified $x$ and $y$ which could fall anywhere on the gold standard map (e.g. not on a grid square or at a floating point)
+* $x$ and $y$ are positions in the rectified (gold standard) map 
+* $x^i$ and $y^i$ are positions in the original image
+
+Each pixel in input is transformed to a new $x$ and $y$ based on the formula made from the **GCPs**
+
+**But** the issue with this is that we are modelling the rectified $x$ and $y$ which could fall anywhere on the gold standard map (e.g. not on a grid square or at a floating point - must be integer). Can result with no values!
 
 ---
 
@@ -492,7 +497,9 @@ $$y^i = b_0 + b_1x + b_2y + \epsilon_i$$
 
 See the image of [Jensen, page 247](https://read.kortext.com/reader/pdf/1872407/247)
 
-This means for every value in the output (gold standard) pixel we can get a value in the original input image. **The images are distorted as so might not completely overlap**
+Take a value in the gold standard image -> input to equation -> it returns a value in the unrectified image.
+
+This means for **every value** in the output (gold standard) pixel we can get a value in the original input image. **The images are distorted as so might not completely overlap**
 
 **The goal is to match the distorted image with the gold standard image....so we want the pixels to line up**
 
@@ -722,17 +729,10 @@ Then use these measurements in [linear regression against the satellite data raw
 
 .center[
 
-$BV_k= p_\lambda A_k +B_k$
+$Reflectance (field spectrum) = gain * radiance (input data) + offset$
 
 
-$BV_k$ is the Digital number for band K
-
-
-$p_\lambda$ is the surface reflenctance from the filed survey
-
-
-$B_k$ is the additive term, depicting the atmospheric path radiance component (scattering) across different paths of reflectance...see next slides
-
+Intercept (missing) is the additive term, depicting the atmospheric path radiance component (scattering) across different paths of reflectance...see next slides...(the value of $y$ when $x = 0$)
 
 The slope = attenuated (dimming and blurring from scattering of light) atmospheric correction. This is the electromagnetic wave absorption and scattering by the atmosphere.
 
@@ -853,7 +853,7 @@ knitr::include_graphics("img/keating_left_and_ortho.jpg")
 ---
 # Orthorectification correction 3
 
-### Software / formulas to do this...
+**Software / formulas to do this...**
 
 Jensen covers the following formulas:
 
@@ -866,12 +866,11 @@ Jensen covers the following formulas:
   * $\theta_O$ = Sun's zenith angle
   * $i$ = Sun's incidence angle - cosine of the angle between the solar zenith
 and the normal line of the slope
+  * solar incidence is angle of sun's rays and normal on surface. For horizontal surface this equals the zenith   
   * Latter two found in angle coefficient files (e.g. Landsat data ANG.txt)
 
 Others:
-* Minnaert correction
-* Statistical Empirical correction 
-* C Correction (advancing the Cosine)
+* Minnaert correction, Statistical Empirical correction, C Correction (advancing the Cosine)
 
 ---
 # Orthorectification correction 4
@@ -1315,7 +1314,7 @@ knitr::include_graphics('img/SR-NBR.jpg')
 * Low pass or low frequency (averages the surrounding pixels)
 
 * High pass or high frequency - enhance local variations
-  * e.g. subtract the low pass filter from twice the value of the original central pixel
+  * low pass = sum all the pixels in a [3 by 3 window then divide by 9](https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-filter-works.htm)
   
 
 
@@ -1328,6 +1327,7 @@ knitr::include_graphics('img/SR-NBR.jpg')
   * Make edges appear in a shaded relief - like likes.
   * Change the coefficients applied to image (Jensen p.299)
   * This is termed **embossing**
+  * The values within the window are summed
   
 
 .pull-left[
@@ -1374,7 +1374,7 @@ Principal Component
 * Has most of the original information 
 * Reduces future computation "dimensionatliy reduction"
 * The first component will capture most of the variance within the dataset
-* In R this is `rasterPCA()` from the RStoolbox package
+* In R this is `prcomp()` from the terra package
 
 For PCA explained watch [Josh Starmer's video](https://www.youtube.com/watch?v=FgakZw6K1QQ) or consult the [lecture slides for GEOG 4110](http://cires.colorado.edu/esoc/sites/default/files/class-files/GEOG%204110_5100%20Lecture%2015%20%28Mahsa%29.pdf)
 ]

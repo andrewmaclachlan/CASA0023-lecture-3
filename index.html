@@ -32,7 +32,7 @@
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/panelset/panelset.css" rel="stylesheet" />
     <script src="libs/panelset/panelset.js"></script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xefdb0f97f61421580435344d07d1bef","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x39b374ae1244b38a5ae7e5ebd29f04c","expires":1}</script>
     <script src="libs/himalaya/himalaya.js"></script>
     <link href="libs/editable/editable.css" rel="stylesheet" />
     <script src="libs/editable/editable.js"></script>
@@ -75,7 +75,7 @@ background-position: center
 
 ### Lecture 3: Remote sensing data
 
-### 02/02/2022 (updated: 23/01/2023)
+### 02/02/2022 (updated: 22/01/2024)
 
 <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:#562457;overflow:visible;position:relative;"><path d="M511.6 36.86l-64 415.1c-1.5 9.734-7.375 18.22-15.97 23.05c-4.844 2.719-10.27 4.097-15.68 4.097c-4.188 0-8.319-.8154-12.29-2.472l-122.6-51.1l-50.86 76.29C226.3 508.5 219.8 512 212.8 512C201.3 512 192 502.7 192 491.2v-96.18c0-7.115 2.372-14.03 6.742-19.64L416 96l-293.7 264.3L19.69 317.5C8.438 312.8 .8125 302.2 .0625 289.1s5.469-23.72 16.06-29.77l448-255.1c10.69-6.109 23.88-5.547 34 1.406S513.5 24.72 511.6 36.86z"/></svg> [a.maclachlan@ucl.ac.uk](mailto:a.maclachlan@ucl.ac.uk)
 <svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:#562457;overflow:visible;position:relative;"><path d="M459.4 151.7c.325 4.548 .325 9.097 .325 13.65 0 138.7-105.6 298.6-298.6 298.6-59.45 0-114.7-17.22-161.1-47.11 8.447 .974 16.57 1.299 25.34 1.299 49.06 0 94.21-16.57 130.3-44.83-46.13-.975-84.79-31.19-98.11-72.77 6.498 .974 12.99 1.624 19.82 1.624 9.421 0 18.84-1.3 27.61-3.573-48.08-9.747-84.14-51.98-84.14-102.1v-1.299c13.97 7.797 30.21 12.67 47.43 13.32-28.26-18.84-46.78-51.01-46.78-87.39 0-19.49 5.197-37.36 14.29-52.95 51.65 63.67 129.3 105.3 216.4 109.8-1.624-7.797-2.599-15.92-2.599-24.04 0-57.83 46.78-104.9 104.9-104.9 30.21 0 57.5 12.67 76.67 33.14 23.72-4.548 46.46-13.32 66.6-25.34-7.798 24.37-24.37 44.83-46.13 57.83 21.12-2.273 41.58-8.122 60.43-16.24-14.29 20.79-32.16 39.31-52.63 54.25z"/></svg> [andymaclachlan](https://twitter.com/andymaclachlan)
@@ -360,7 +360,7 @@ class: inverse, center, middle
 
 A rather famous example is when the scan line corrector on Landsat 7 failed... 
 
-It moves in a zig zag and the corrector made the image normal
+As satellite moves forward whilst scanning it must be corrected...
 
 .pull-left[
 
@@ -376,7 +376,7 @@ It moves in a zig zag and the corrector made the image normal
 ]
 ]
 
-Imagery was still distributed but it is hard to use with methods developed to estiamte the gaps, termed gap filling. 
+Imagery was still distributed but it is hard to use with methods developed to estimate the gaps, termed gap filling. 
 
 ---
 # Recall regression....
@@ -462,7 +462,7 @@ But when remotely sensed data is collected image distortions can be introduced d
 * We take the coordinates and model them to give geometric transformation coefficients 
 * Think back to GIS - **linear regression with our distorted x or y as the dependent or independent***
 
-* We then plot these and try to minimise the RMSE - Jensen sets a RMSE value of 0.5
+* We then plot these and try to minimise the RMSE (in 3 slides) - Jensen sets a RMSE value of 0.5
 ]
 
 
@@ -485,9 +485,14 @@ for the new y:
 
 `$$y = b_0 + b_1x^i + b_2y^i + \epsilon_i$$`
 
-Where `\(x\)` and `\(y\)` are positions in the rectified (gold standard) map 
+Where 
 
-**But** the issue with this is that we are modelling the rectified `\(x\)` and `\(y\)` which could fall anywhere on the gold standard map (e.g. not on a grid square or at a floating point)
+* `\(x\)` and `\(y\)` are positions in the rectified (gold standard) map 
+* `\(x^i\)` and `\(y^i\)` are positions in the original image
+
+Each pixel in input is transformed to a new `\(x\)` and `\(y\)` based on the formula made from the **GCPs**
+
+**But** the issue with this is that we are modelling the rectified `\(x\)` and `\(y\)` which could fall anywhere on the gold standard map (e.g. not on a grid square or at a floating point - must be integer). Can result with no values!
 
 ---
 
@@ -506,7 +511,9 @@ for the new y:
 
 See the image of [Jensen, page 247](https://read.kortext.com/reader/pdf/1872407/247)
 
-This means for every value in the output (gold standard) pixel we can get a value in the original input image. **The images are distorted as so might not completely overlap**
+Take a value in the gold standard image -&gt; input to equation -&gt; it returns a value in the unrectified image.
+
+This means for **every value** in the output (gold standard) pixel we can get a value in the original input image. **The images are distorted as so might not completely overlap**
 
 **The goal is to match the distorted image with the gold standard image....so we want the pixels to line up**
 
@@ -722,17 +729,10 @@ Then use these measurements in [linear regression against the satellite data raw
 
 .center[
 
-`\(BV_k= p_\lambda A_k +B_k\)`
+`\(Reflectance (field spectrum) = gain * radiance (input data) + offset\)`
 
 
-`\(BV_k\)` is the Digital number for band K
-
-
-`\(p_\lambda\)` is the surface reflenctance from the filed survey
-
-
-`\(B_k\)` is the additive term, depicting the atmospheric path radiance component (scattering) across different paths of reflectance...see next slides
-
+Intercept (missing) is the additive term, depicting the atmospheric path radiance component (scattering) across different paths of reflectance...see next slides...(the value of `\(y\)` when `\(x = 0\)`)
 
 The slope = attenuated (dimming and blurring from scattering of light) atmospheric correction. This is the electromagnetic wave absorption and scattering by the atmosphere.
 
@@ -841,7 +841,7 @@ class: inverse, center, middle
 ---
 # Orthorectification correction 3
 
-### Software / formulas to do this...
+**Software / formulas to do this...**
 
 Jensen covers the following formulas:
 
@@ -854,12 +854,11 @@ Jensen covers the following formulas:
   * `\(\theta_O\)` = Sun's zenith angle
   * `\(i\)` = Sun's incidence angle - cosine of the angle between the solar zenith
 and the normal line of the slope
+  * solar incidence is angle of sun's rays and normal on surface. For horizontal surface this equals the zenith   
   * Latter two found in angle coefficient files (e.g. Landsat data ANG.txt)
 
 Others:
-* Minnaert correction
-* Statistical Empirical correction 
-* C Correction (advancing the Cosine)
+* Minnaert correction, Statistical Empirical correction, C Correction (advancing the Cosine)
 
 ---
 # Orthorectification correction 4
@@ -1279,7 +1278,7 @@ In Landsat 8-9, NBR = (Band 5 – Band 7) / (Band 5 + Band 7).
 * Low pass or low frequency (averages the surrounding pixels)
 
 * High pass or high frequency - enhance local variations
-  * e.g. subtract the low pass filter from twice the value of the original central pixel
+  * low pass = sum all the pixels in a [3 by 3 window then divide by 9](https://pro.arcgis.com/en/pro-app/latest/tool-reference/spatial-analyst/how-filter-works.htm)
   
 
 
@@ -1292,6 +1291,7 @@ In Landsat 8-9, NBR = (Band 5 – Band 7) / (Band 5 + Band 7).
   * Make edges appear in a shaded relief - like likes.
   * Change the coefficients applied to image (Jensen p.299)
   * This is termed **embossing**
+  * The values within the window are summed
   
 
 .pull-left[
@@ -1336,7 +1336,7 @@ Principal Component
 * Has most of the original information 
 * Reduces future computation "dimensionatliy reduction"
 * The first component will capture most of the variance within the dataset
-* In R this is `rasterPCA()` from the RStoolbox package
+* In R this is `prcomp()` from the terra package
 
 For PCA explained watch [Josh Starmer's video](https://www.youtube.com/watch?v=FgakZw6K1QQ) or consult the [lecture slides for GEOG 4110](http://cires.colorado.edu/esoc/sites/default/files/class-files/GEOG%204110_5100%20Lecture%2015%20%28Mahsa%29.pdf)
 ]
