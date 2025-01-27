@@ -19,7 +19,7 @@ output:
 options(htmltools.dir.version = FALSE)
 ```
 
-```{r xaringan-all, echo=FALSE}
+```{r xaringan-all, echo=FALSE, warning=FALSE}
 library(countdown)
 library(xaringan)
 library(xaringanExtra)
@@ -185,7 +185,7 @@ knitr::include_graphics('img/norwood.png')
 
 .pull-right[
 
-``````{r echo=FALSE, out.width='100%', fig.align='center'}
+```{r echo=FALSE, out.width='100%', fig.align='center'}
 knitr::include_graphics('img/MSS_test.png')
 ```
 .small[A test version of Norwood’s multispectral scanner captured this false-color image of Half Dome from a truck two months before Landsat 1’s launch.Source:[MIT Technology Review. COURTESY OF NASA](https://www.technologyreview.com/2021/06/29/1025732/the-woman-who-brought-us-the-world/)
@@ -207,7 +207,7 @@ knitr::include_graphics('img/MSS_test.png')
 
 .pull-left[
 
-``````{r echo=FALSE, out.width='100%', fig.align='center'}
+```{r echo=FALSE, out.width='100%', fig.align='center'}
 knitr::include_graphics('img/MSS.png')
 ```
 .small[MSS sensor.Source:[eoportal](https://www.eoportal.org/satellite-missions/landsat-1-3#mss-multispectral-scanner)
@@ -216,7 +216,7 @@ knitr::include_graphics('img/MSS.png')
 
 .pull-right[
 
-``````{r echo=FALSE, out.width='100%', fig.align='center'}
+```{r echo=FALSE, out.width='100%', fig.align='center'}
 knitr::include_graphics('img/RBV.png')
 ```
 .small[RBV sensor.Source:[eoportal](https://www.eoportal.org/satellite-missions/landsat-1-3#mss-multispectral-scanner)
@@ -234,7 +234,7 @@ knitr::include_graphics('img/RBV.png')
 
 Mirror reflects light onto 1 detector - Landsat
 
-``````{r echo=FALSE, out.width='95%', fig.align='center'}
+```{r echo=FALSE, out.width='95%', fig.align='center'}
 knitr::include_graphics('img/whisk_broom.jpg')
 ```
 .small[Push Broom and Whisk Broom Sensors. Source:[NV5](https://www.nv5geospatialsoftware.com/Learn/Blogs/Blog-Details/ArtMID/10198/ArticleID/16262/Push-Broom-and-Whisk-Broom-Sensors).)
@@ -247,7 +247,7 @@ knitr::include_graphics('img/whisk_broom.jpg')
 
 several detectors that are pushed along - SPOT, Quickbird
 
-``````{r echo=FALSE, out.width='95%', fig.align='center'}
+```{r echo=FALSE, out.width='95%', fig.align='center'}
 knitr::include_graphics('img/push_broom.jpg')
 ```
 .small[Push Broom and Whisk Broom Sensors. Source:[NV5](https://www.nv5geospatialsoftware.com/Learn/Blogs/Blog-Details/ArtMID/10198/ArticleID/16262/Push-Broom-and-Whisk-Broom-Sensors).)
@@ -258,7 +258,7 @@ knitr::include_graphics('img/push_broom.jpg')
 
 # Half Dome
 
-``````{r echo=FALSE, out.width='45%', fig.align='center'}
+```{r echo=FALSE, out.width='45%', fig.align='center'}
 knitr::include_graphics('img/IMG_5259.jpg')
 ```
 .small[Half Dome September 2022. Source: Andy MacLachlan]
@@ -268,7 +268,7 @@ knitr::include_graphics('img/IMG_5259.jpg')
 # The woman who brought us the world 3
 
 
-``````{r echo=FALSE, out.width='75%', fig.align='center'}
+```{r echo=FALSE, out.width='75%', fig.align='center'}
 knitr::include_graphics('img/5262-Landsat-timeline-FNL-2.jpg')
 ```
 .small[Landsat Satellite Missions.Source:[USGS](https://www.usgs.gov/landsat-missions/landsat-satellite-missions)]
@@ -278,7 +278,7 @@ knitr::include_graphics('img/5262-Landsat-timeline-FNL-2.jpg')
 # The woman who brought us the world 4
 
 
-``````{r echo=FALSE, out.width='100%', fig.align='center'}
+```{r echo=FALSE, out.width='100%', fig.align='center'}
 knitr::include_graphics('img/landsat_downloads_users.png')
 ```
 .small[Landsat Downloads and Use Data .Source:[Goddard Media Studios](https://svs.gsfc.nasa.gov/11458)]
@@ -462,7 +462,7 @@ knitr::include_graphics('img/Geometric-correction-procedures.png')
 
 # Geometric correction solution modelling
 
-**Jensen page 244 describes:**
+**Jensen page [244-247](https://read.kortext.com/reader/pdf/1872407/247) describes:**
 
 input to output (forward mapping), for the new x:
 
@@ -615,7 +615,7 @@ Scattering = can create the “adjacency effect”, radiance from pixels nearby 
   * Assume brightness pixels linearly related to a base image...
   * Regression per band $y=1.025x+21.152$
   * Adjust the image based on the regression result. 
-  * Here y is the value of our base. To get y we multiply our new date pixel (x) by the coefficient and add the intercept value.
+  * Here y is the value of our base. To get an equivalent to y (base) we multiply our new date pixel (x) by the coefficient and add the intercept value.
   * Apply this to the rest of the pixels..
   
 ]
@@ -785,7 +785,7 @@ knitr::include_graphics("img/Atmospheric-Electromagnetic-Opacity.png")
 ---
 # Field work hazards
 
-``````{r echo=FALSE, out.width='75%', fig.align='center'}
+```{r echo=FALSE, out.width='75%', fig.align='center'}
 knitr::include_graphics('img/FglyveuXoAInuBS.jfif')
 ```
 .small[Cows and calibration targets, New Forest, 2017.Source:[Dr Luke Brown](https://twitter.com/DrLukeBrown/status/1587927684008800257/photo/1)
@@ -949,9 +949,9 @@ class: inverse, center, middle
 
 * It is independent of the sensor 
 
-* Measured in Watts (power or light here), per metre squared (surface within FOV) per steradian (angle of the view) per nanometre (wavelength) = $W m^2 sr^-1 μm^1$
+* Measured in Watts (power of light here), per metre squared (surface within FOV) per steradian (angle of the view) per nanometre (wavelength) = $W m^2 sr^-1 μm^1$
 
-* DN to **spectral radiance** = radiometric calibration
+* DN to **spectral radiance** = "radiometric calibration"
 
 * Sensor calibration = the relationship between 
 
@@ -1327,7 +1327,7 @@ knitr::include_graphics('img/SR-NBR.jpg')
   * Make edges appear in a shaded relief - like likes.
   * Change the coefficients applied to image (Jensen p.299)
   * This is termed **embossing**
-  * The values within the window are summed
+  * The values within the window are summed (weighted sum based on coefficients)
   
 
 .pull-left[
@@ -1386,6 +1386,7 @@ PCA example, multi-date PCA - bands from both time points are combined into one 
 ```{r echo=FALSE, out.width='40%', fig.align='center'}
 knitr::include_graphics('img/PCA.png')
 ```
+
 .small[Figure 4. Example of PCA-enhanced land use change information from cropland and water to urban land in the third principal component (PC3), 2003–2006. (a) RGB composition image of SPOT-5 (2003); (b) (RGB) composition image of SPOT-5 (2006); (c) the third principal component; (d) field survey photo (2006). Source:[Demg et al. 2019](https://www.mdpi.com/2072-4292/11/10/1230/htm)
 ]
 
@@ -1510,8 +1511,13 @@ class: inverse, center, middle
   * How do these methods help **in urban environments** 
   * Does adding complexity to imagery (or creating new datasets) **assist us** in our aim?
 
-```{r include=FALSE}
-library(xaringanBuilder)
-build_pdf("index.html", complex_slides = TRUE)
+
+
+```{r include=FALSE, eval=FALSE}
+library(renderthis)
+# options(timeout = 300)
+# renderthis::to_pdf("index.Rmd")
+
+pagedown::chrome_print("index.html", timeout=600)
 ```
 
