@@ -1103,15 +1103,17 @@ algorithm (Hansen and Loveland, 2012; USGS, 2015).
 
 Now also
 
-* LaSRC (Landsat 8-9) level 2 product: https://www.usgs.gov/landsat-missions/landsat-collection-2-surface-reflectance
+* LaSRC (Landsat 8-9) Collection 2, level 2 product: https://www.usgs.gov/landsat-missions/landsat-collection-2-surface-reflectance
 
 ---
 
 class: center, middle
 
-# What is a level 2 product? 
+# What is a Collection 2, level 2 product
 
-## Means something has changed or advanced ...
+## Collection - means something has changed or advanced ...
+
+## Level - refers to the data (1- DN, 2 surface reflectance, 3 science products (e.g burn area))
 
 ## Here it's the data and algorthims used to create the data, [see the collection level summary for specific details](https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/files/Landsat-C1vsC2-2021-0430-LMWS.pdf)
 
